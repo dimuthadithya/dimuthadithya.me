@@ -230,17 +230,34 @@
     <section id="projects" class="py-24 relative">
       <div class="container mx-auto px-6 max-w-5xl">
         <h2 class="text-3xl font-bold mb-12">All Projects</h2>
-        <div class="mb-8 flex justify-center">
-          <div class="relative">
-            <input
-              type="text"
-              id="project-search"
-              placeholder="Search projects..."
-              class="w-full md:w-96 px-4 py-2 rounded-lg bg-purple-500/10 border border-purple-500/20 text-white placeholder-purple-300 focus:outline-none focus:border-purple-500/50"
-            />
-            <i
-              class="fas fa-search absolute right-3 top-1/2 transform -translate-y-1/2 text-purple-500"
-            ></i>
+        <div class="mb-8 space-y-6">
+          <div class="flex justify-center">
+            <div class="relative">
+              <input
+                type="text"
+                id="project-search"
+                placeholder="Search projects..."
+                class="w-full md:w-96 px-4 py-2 rounded-lg bg-purple-500/10 border border-purple-500/20 text-white placeholder-purple-300 focus:outline-none focus:border-purple-500/50"
+              />
+              <i
+                class="fas fa-search absolute right-3 top-1/2 transform -translate-y-1/2 text-purple-500"
+              ></i>
+            </div>
+          </div>
+
+          <!-- Topic filters -->
+          <div class="flex flex-wrap justify-center gap-3" id="topic-filters">
+            <button
+              class="px-4 py-2 rounded-lg bg-purple-500 text-white hover:bg-purple-500/30 transition-colors"
+              data-topic="all"
+            >
+              All Topics
+              <span
+                class="ml-2 text-xs bg-purple-500/30 px-2 py-1 rounded-full count"
+                >0</span
+              >
+            </button>
+            <!-- Topic buttons will be added here dynamically -->
           </div>
         </div>
         <div
@@ -278,12 +295,12 @@
               </h4>
               <div class="flex flex-wrap gap-3">
                 <span
-                  class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-500 text-sm"
+                  class="skills-item px-3 py-1 rounded-full bg-purple-500/20 text-purple-500 text-sm"
                 >
                   <i class="fab fa-php mr-1"></i>PHP
                 </span>
                 <span
-                  class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-500 text-sm"
+                  class="skills-item px-3 py-1 rounded-full bg-purple-500/20 text-purple-500 text-sm"
                 >
                   <i class="fab fa-js mr-1"></i>JavaScript
                 </span>
@@ -322,12 +339,12 @@
               </h4>
               <div class="flex flex-wrap gap-3">
                 <span
-                  class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-500 text-sm"
+                  class="skills-item px-3 py-1 rounded-full bg-purple-500/20 text-purple-500 text-sm"
                 >
                   <i class="fab fa-laravel mr-1"></i>Laravel
                 </span>
                 <span
-                  class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-500 text-sm"
+                  class="skills-item px-3 py-1 rounded-full bg-purple-500/20 text-purple-500 text-sm"
                 >
                   <i class="fab fa-vuejs mr-1"></i>Vue.js
                 </span>
@@ -403,13 +420,13 @@
             <h3 class="text-xl font-bold mb-6 gradient-text">Soft Skills</h3>
             <ul class="space-y-4">
               <li
-                class="flex items-center p-2 hover:bg-purple-500/10 rounded-lg transition-colors"
+                class="skills-item flex items-center p-2 hover:bg-purple-500/10 rounded-lg transition-colors"
               >
                 <i class="fas fa-users text-purple-500 mr-3 text-xl"></i>
                 <span>Teamwork & Collaboration</span>
               </li>
               <li
-                class="flex items-center p-2 hover:bg-purple-500/10 rounded-lg transition-colors"
+                class="skills-item flex items-center p-2 hover:bg-purple-500/10 rounded-lg transition-colors"
               >
                 <i class="fas fa-comments text-purple-500 mr-3 text-xl"></i>
                 <span>Communication</span>
@@ -575,6 +592,92 @@
         easing: 'cubic-bezier(0.5, 0, 0, 1)'
       });
 
+      // Additional ScrollReveal for skills items
+      ScrollReveal().reveal('.skills-item', {
+        delay: 200,
+        distance: '20px',
+        origin: 'left',
+        opacity: 0,
+        duration: 800,
+        interval: 100
+      });
+
+      // GitHub Data Integration
+      async function fetchGitHubData() {
+        try {
+          // Fetch cached GitHub data
+          const response = await fetch('./data/github-data.json');
+          const data = await response.json();
+
+          const { profile: userData, repos: allReposData, stats } = data;
+
+          // Update profile section
+          if (document.getElementById('profile-image')) {
+            document.getElementById('profile-image').src = userData.avatar_url;
+          }
+          if (document.getElementById('github-bio')) {
+            document.getElementById('github-bio').textContent =
+              userData.bio || '';
+          }
+          if (document.getElementById('github-repos')) {
+            document.getElementById('github-repos').textContent =
+              stats.totalRepos;
+          }
+          if (document.getElementById('github-followers')) {
+            document.getElementById('github-followers').textContent =
+              userData.followers;
+          }
+
+          // Add stats if container exists
+          const statsContainer = document.querySelector('.github-stats');
+          if (statsContainer) {
+            statsContainer.innerHTML += `
+              <div>
+                <div class="text-2xl font-bold gradient-text">${
+                  stats.totalStars
+                }</div>
+                <div class="text-gray-400">Total Stars</div>
+              </div>
+              <div>
+                <div class="text-2xl font-bold gradient-text">${
+                  getTopLanguage(allReposData) || 'N/A'
+                }</div>
+                <div class="text-gray-400">Top Language</div>
+              </div>
+            `;
+          }
+
+          // Store all projects globally and initialize filters
+          allProjects = allReposData;
+          const topics = collectTopics(allProjects);
+          updateTopicFilters(topics);
+          updateTopicCounts(allProjects);
+          displayProjects(allProjects);
+        } catch (error) {
+          console.error('Error loading GitHub data:', error);
+          document.getElementById('github-projects').innerHTML = `
+            <div class="col-span-full text-center py-12">
+              <i class="fas fa-exclamation-circle text-4xl text-purple-500 mb-4"></i>
+              <p class="text-gray-400">Unable to load GitHub projects. Please try again later.</p>
+            </div>
+          `;
+        }
+      }
+
+      // Helper function to get the most used language
+      function getTopLanguage(repos) {
+        const languageCounts = {};
+        repos.forEach((repo) => {
+          if (repo.language) {
+            languageCounts[repo.language] =
+              (languageCounts[repo.language] || 0) + 1;
+          }
+        });
+        return Object.entries(languageCounts).sort(
+          (a, b) => b[1] - a[1]
+        )[0]?.[0];
+      }
+
       // Smooth scroll for navigation links
       document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
         anchor.addEventListener('click', function (e) {
@@ -584,170 +687,6 @@
           });
         });
       });
-
-      // GitHub API Integration
-      async function fetchGitHubData() {
-        const username = 'dimuthadithya';
-        try {
-          // Fetch user profile
-          const userResponse = await fetch(
-            `https://api.github.com/users/${username}`
-          );
-          const userData = await userResponse.json();
-
-          // Fetch all repositories for total stats
-          const allReposResponse = await fetch(
-            `https://api.github.com/users/${username}/repos?per_page=100`
-          );
-          const allReposData = await allReposResponse.json();
-
-          // Use allReposData for displaying all repositories
-          const reposData = allReposData.sort(
-            (a, b) => new Date(b.updated_at) - new Date(a.updated_at)
-          );
-
-          // Calculate total stars
-          const totalStars = allReposData.reduce(
-            (acc, repo) => acc + repo.stargazers_count,
-            0
-          );
-
-          // Calculate language statistics
-          const languages = {};
-          allReposData.forEach((repo) => {
-            if (repo.language) {
-              languages[repo.language] = (languages[repo.language] || 0) + 1;
-            }
-          });
-
-          // Sort languages by usage
-          const sortedLanguages = Object.entries(languages)
-            .sort((a, b) => b[1] - a[1])
-            .slice(0, 3);
-
-          // Update profile image
-          if (userData.avatar_url) {
-            document.getElementById('profile-image').src = userData.avatar_url;
-          }
-
-          // Update GitHub stats
-          document.getElementById('github-bio').textContent =
-            userData.bio || '';
-          document.getElementById('github-repos').textContent =
-            userData.public_repos || '0';
-          document.getElementById('github-followers').textContent =
-            userData.followers || '0';
-
-          // Add languages stats if the container exists
-          const statsContainer = document.querySelector('.github-stats');
-          if (statsContainer) {
-            statsContainer.innerHTML += `
-              <div>
-                <div class="text-2xl font-bold gradient-text">${totalStars}</div>
-                <div class="text-gray-400">Total Stars</div>
-              </div>
-              <div>
-                <div class="text-2xl font-bold gradient-text">${
-                  sortedLanguages[0]?.[0] || 'N/A'
-                }</div>
-                <div class="text-gray-400">Top Language</div>
-              </div>
-            `;
-          }
-
-          // Store all projects globally
-          allProjects = reposData;
-          displayProjects(allProjects);
-
-          // Update projects section
-          const projectsContainer = document.getElementById('github-projects');
-          projectsContainer.innerHTML = reposData
-            .map(
-              (repo) => `
-            <div class="card rounded-xl p-6 group">
-              <div class="flex items-center mb-4">
-                <i class="fas fa-folder text-purple-500 text-2xl mr-3 group-hover:rotate-[-15deg] transition-transform"></i>
-                <h3 class="text-xl font-bold">${repo.name}</h3>
-              </div>
-              <p class="text-gray-400 mb-4">${
-                repo.description || 'No description available'
-              }</p>
-              <div class="flex gap-3 mb-6 flex-wrap">
-                ${
-                  repo.language
-                    ? `<span class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-500 text-sm flex items-center">
-                        <i class="fas fa-code mr-1"></i>${repo.language}
-                      </span>`
-                    : ''
-                }
-                <span class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-500 text-sm flex items-center">
-                  <i class="fas fa-star mr-1"></i>${repo.stargazers_count} stars
-                </span>
-                <span class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-500 text-sm flex items-center">
-                  <i class="fas fa-code-branch mr-1"></i>${
-                    repo.forks_count
-                  } forks
-                </span>
-                <span class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-500 text-sm flex items-center">
-                  <i class="fas fa-eye mr-1"></i>${repo.watchers_count} watchers
-                </span>
-              </div>
-              <div class="flex gap-3 mb-6 flex-wrap">
-                <span class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-500 text-sm flex items-center">
-                  <i class="far fa-calendar-alt mr-1"></i>Created: ${new Date(
-                    repo.created_at
-                  ).toLocaleDateString()}
-                </span>
-                <span class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-500 text-sm flex items-center">
-                  <i class="fas fa-sync-alt mr-1"></i>Updated: ${new Date(
-                    repo.updated_at
-                  ).toLocaleDateString()}
-                </span>
-                ${
-                  repo.homepage
-                    ? `<span class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-500 text-sm flex items-center">
-                        <i class="fas fa-globe mr-1"></i>Has Demo
-                      </span>`
-                    : ''
-                }
-                ${
-                  repo.topics && repo.topics.length
-                    ? `<div class="flex gap-2 flex-wrap">
-                        ${repo.topics
-                          .map(
-                            (topic) =>
-                              `<span class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-500 text-sm">
-                            #${topic}
-                          </span>`
-                          )
-                          .join('')}
-                      </div>`
-                    : ''
-                }
-              </div>
-              <div class="flex gap-3">
-                <a href="${repo.html_url}" target="_blank" 
-                   class="inline-flex items-center px-4 py-2 rounded-lg bg-purple-500/20 text-purple-500 hover:bg-purple-500/30 transition-colors">
-                  <i class="fab fa-github mr-2"></i>View Source
-                  <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
-                </a>
-                ${
-                  repo.homepage
-                    ? `<a href="${repo.homepage}" target="_blank" 
-                         class="inline-flex items-center px-4 py-2 rounded-lg bg-purple-500/20 text-purple-500 hover:bg-purple-500/30 transition-colors">
-                        <i class="fas fa-external-link-alt mr-2"></i>Live Demo
-                      </a>`
-                    : ''
-                }
-              </div>
-            </div>
-          `
-            )
-            .join('');
-        } catch (error) {
-          console.error('Error fetching GitHub data:', error);
-        }
-      }
 
       // Call the function when the page loads
       window.addEventListener('load', fetchGitHubData);
@@ -769,28 +708,131 @@
       // Show subtitle (replacing GSAP animation with simple CSS)
       document.getElementById('subtitle').style.opacity = 1;
 
-      // Project search functionality
+      // Project filtering functionality
       let allProjects = [];
+      let currentSearchTerm = '';
+      let currentTopic = 'all';
+
+      function collectTopics(projects) {
+        const topicsSet = new Set();
+        projects.forEach((project) => {
+          if (project.topics && project.topics.length > 0) {
+            project.topics.forEach((topic) => topicsSet.add(topic));
+          }
+        });
+        return Array.from(topicsSet).sort();
+      }
+
+      function updateTopicFilters(topics) {
+        const topicFilters = document.getElementById('topic-filters');
+        const existingButtons = Array.from(topicFilters.children);
+        const allButton = existingButtons[0]; // Keep the "All Topics" button
+
+        // Add click event listener to "All Topics" button
+        allButton.addEventListener('click', () => filterByTopic('all'));
+
+        // Remove old topic buttons
+        existingButtons.slice(1).forEach((button) => button.remove());
+
+        // Add new topic buttons
+        topics.forEach((topic) => {
+          const button = document.createElement('button');
+          button.className =
+            'px-4 py-2 rounded-lg bg-purple-500/20 text-purple-500 hover:bg-purple-500/30 transition-colors';
+          button.setAttribute('data-topic', topic);
+          button.innerHTML = `
+            <span class="capitalize">${topic.replace(/-/g, ' ')}</span>
+            <span class="ml-2 text-xs bg-purple-500/30 px-2 py-1 rounded-full" id="topic-count-${topic}">0</span>
+          `;
+          button.addEventListener('click', () => filterByTopic(topic));
+          topicFilters.appendChild(button);
+        });
+      }
+
+      function updateTopicCounts(projects) {
+        const topics = collectTopics(projects);
+        const topicCounts = {};
+
+        // Count projects per topic
+        projects.forEach((project) => {
+          if (project.topics) {
+            project.topics.forEach((topic) => {
+              topicCounts[topic] = (topicCounts[topic] || 0) + 1;
+            });
+          }
+        });
+
+        // Update count badges
+        topics.forEach((topic) => {
+          const countElement = document.getElementById(`topic-count-${topic}`);
+          if (countElement) {
+            countElement.textContent = topicCounts[topic] || 0;
+          }
+        });
+
+        // Update "All Topics" count
+        const allCountElement = document.querySelector(
+          '[data-topic="all"] .count'
+        );
+        if (allCountElement) {
+          allCountElement.textContent = allProjects.length;
+        }
+      }
+
+      // Initialize the topic filters when page loads
+      document.addEventListener('DOMContentLoaded', () => {
+        const allTopicsButton = document.querySelector('[data-topic="all"]');
+        if (allTopicsButton) {
+          allTopicsButton.addEventListener('click', () => filterByTopic('all'));
+        }
+      });
+
+      function filterByTopic(topic) {
+        currentTopic = topic;
+        updateActiveTopicButton(topic);
+        filterProjects(currentSearchTerm);
+      }
+
+      function updateActiveTopicButton(topic) {
+        document.querySelectorAll('#topic-filters button').forEach((button) => {
+          button.classList.remove('active', 'bg-purple-500', 'text-white');
+          if (button.getAttribute('data-topic') === topic) {
+            button.classList.add('active', 'bg-purple-500', 'text-white');
+          }
+        });
+      }
 
       function filterProjects(searchTerm) {
-        const filteredProjects = searchTerm
-          ? allProjects.filter(
-              (project) =>
-                project.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                (project.description &&
-                  project.description
-                    .toLowerCase()
-                    .includes(searchTerm.toLowerCase())) ||
-                (project.language &&
-                  project.language
-                    .toLowerCase()
-                    .includes(searchTerm.toLowerCase())) ||
-                (project.topics &&
-                  project.topics.some((topic) =>
-                    topic.toLowerCase().includes(searchTerm.toLowerCase())
-                  ))
-            )
-          : allProjects;
+        currentSearchTerm = searchTerm;
+
+        let filteredProjects = allProjects;
+
+        // Apply search term filter
+        if (searchTerm) {
+          filteredProjects = filteredProjects.filter(
+            (project) =>
+              project.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+              (project.description &&
+                project.description
+                  .toLowerCase()
+                  .includes(searchTerm.toLowerCase())) ||
+              (project.language &&
+                project.language
+                  .toLowerCase()
+                  .includes(searchTerm.toLowerCase())) ||
+              (project.topics &&
+                project.topics.some((topic) =>
+                  topic.toLowerCase().includes(searchTerm.toLowerCase())
+                ))
+          );
+        }
+
+        // Apply topic filter
+        if (currentTopic !== 'all') {
+          filteredProjects = filteredProjects.filter(
+            (project) => project.topics && project.topics.includes(currentTopic)
+          );
+        }
 
         displayProjects(filteredProjects);
       }
