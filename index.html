@@ -230,17 +230,30 @@
     <section id="projects" class="py-24 relative">
       <div class="container mx-auto px-6 max-w-5xl">
         <h2 class="text-3xl font-bold mb-12">All Projects</h2>
-        <div class="mb-8 flex justify-center">
-          <div class="relative">
-            <input
-              type="text"
-              id="project-search"
-              placeholder="Search projects..."
-              class="w-full md:w-96 px-4 py-2 rounded-lg bg-purple-500/10 border border-purple-500/20 text-white placeholder-purple-300 focus:outline-none focus:border-purple-500/50"
-            />
-            <i
-              class="fas fa-search absolute right-3 top-1/2 transform -translate-y-1/2 text-purple-500"
-            ></i>
+        <div class="mb-8 space-y-6">
+          <div class="flex justify-center">
+            <div class="relative">
+              <input
+                type="text"
+                id="project-search"
+                placeholder="Search projects..."
+                class="w-full md:w-96 px-4 py-2 rounded-lg bg-purple-500/10 border border-purple-500/20 text-white placeholder-purple-300 focus:outline-none focus:border-purple-500/50"
+              />
+              <i
+                class="fas fa-search absolute right-3 top-1/2 transform -translate-y-1/2 text-purple-500"
+              ></i>
+            </div>
+          </div>
+
+          <!-- Topic filters -->
+          <div class="flex flex-wrap justify-center gap-3" id="topic-filters">
+            <button
+              class="px-4 py-2 rounded-lg bg-purple-500/20 text-purple-500 hover:bg-purple-500/30 transition-colors active"
+              data-topic="all"
+            >
+              All Topics
+            </button>
+            <!-- Topic buttons will be added here dynamically -->
           </div>
         </div>
         <div
@@ -657,6 +670,13 @@
 
           // Store all projects globally
           allProjects = reposData;
+
+          // Initialize topic filters
+          const topics = collectTopics(allProjects);
+          updateTopicFilters(topics);
+          updateTopicCounts(allProjects);
+
+          // Display all projects initially
           displayProjects(allProjects);
 
           // Update projects section
@@ -769,28 +789,120 @@
       // Show subtitle (replacing GSAP animation with simple CSS)
       document.getElementById('subtitle').style.opacity = 1;
 
-      // Project search functionality
+      // Project filtering functionality
       let allProjects = [];
+      let currentSearchTerm = '';
+      let currentTopic = 'all';
+
+      function collectTopics(projects) {
+        const topicsSet = new Set();
+        projects.forEach((project) => {
+          if (project.topics && project.topics.length > 0) {
+            project.topics.forEach((topic) => topicsSet.add(topic));
+          }
+        });
+        return Array.from(topicsSet).sort();
+      }
+
+      function updateTopicFilters(topics) {
+        const topicFilters = document.getElementById('topic-filters');
+        const existingButtons = Array.from(topicFilters.children);
+        const allButton = existingButtons[0]; // Keep the "All Topics" button
+
+        // Remove old topic buttons
+        existingButtons.slice(1).forEach((button) => button.remove());
+
+        // Add new topic buttons
+        topics.forEach((topic) => {
+          const button = document.createElement('button');
+          button.className =
+            'px-4 py-2 rounded-lg bg-purple-500/20 text-purple-500 hover:bg-purple-500/30 transition-colors';
+          button.setAttribute('data-topic', topic);
+          button.innerHTML = `
+            <span class="capitalize">${topic.replace(/-/g, ' ')}</span>
+            <span class="ml-2 text-xs bg-purple-500/30 px-2 py-1 rounded-full" id="topic-count-${topic}">0</span>
+          `;
+          button.addEventListener('click', () => filterByTopic(topic));
+          topicFilters.appendChild(button);
+        });
+      }
+
+      function updateTopicCounts(projects) {
+        const topics = collectTopics(projects);
+        const topicCounts = {};
+
+        // Count projects per topic
+        projects.forEach((project) => {
+          if (project.topics) {
+            project.topics.forEach((topic) => {
+              topicCounts[topic] = (topicCounts[topic] || 0) + 1;
+            });
+          }
+        });
+
+        // Update count badges
+        topics.forEach((topic) => {
+          const countElement = document.getElementById(`topic-count-${topic}`);
+          if (countElement) {
+            countElement.textContent = topicCounts[topic] || 0;
+          }
+        });
+
+        // Update "All Topics" count
+        const allCountElement = document.querySelector(
+          '[data-topic="all"] .count'
+        );
+        if (allCountElement) {
+          allCountElement.textContent = projects.length;
+        }
+      }
+
+      function filterByTopic(topic) {
+        currentTopic = topic;
+        updateActiveTopicButton(topic);
+        filterProjects(currentSearchTerm);
+      }
+
+      function updateActiveTopicButton(topic) {
+        document.querySelectorAll('#topic-filters button').forEach((button) => {
+          button.classList.remove('active', 'bg-purple-500', 'text-white');
+          if (button.getAttribute('data-topic') === topic) {
+            button.classList.add('active', 'bg-purple-500', 'text-white');
+          }
+        });
+      }
 
       function filterProjects(searchTerm) {
-        const filteredProjects = searchTerm
-          ? allProjects.filter(
-              (project) =>
-                project.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                (project.description &&
-                  project.description
-                    .toLowerCase()
-                    .includes(searchTerm.toLowerCase())) ||
-                (project.language &&
-                  project.language
-                    .toLowerCase()
-                    .includes(searchTerm.toLowerCase())) ||
-                (project.topics &&
-                  project.topics.some((topic) =>
-                    topic.toLowerCase().includes(searchTerm.toLowerCase())
-                  ))
-            )
-          : allProjects;
+        currentSearchTerm = searchTerm;
+
+        let filteredProjects = allProjects;
+
+        // Apply search term filter
+        if (searchTerm) {
+          filteredProjects = filteredProjects.filter(
+            (project) =>
+              project.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+              (project.description &&
+                project.description
+                  .toLowerCase()
+                  .includes(searchTerm.toLowerCase())) ||
+              (project.language &&
+                project.language
+                  .toLowerCase()
+                  .includes(searchTerm.toLowerCase())) ||
+              (project.topics &&
+                project.topics.some((topic) =>
+                  topic.toLowerCase().includes(searchTerm.toLowerCase())
+                ))
+          );
+        }
+
+        // Apply topic filter
+        if (currentTopic !== 'all') {
+          filteredProjects = filteredProjects.filter(
+            (project) => project.topics && project.topics.includes(currentTopic)
+          );
+        }
 
         displayProjects(filteredProjects);
       }
