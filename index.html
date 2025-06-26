@@ -248,10 +248,14 @@
           <!-- Topic filters -->
           <div class="flex flex-wrap justify-center gap-3" id="topic-filters">
             <button
-              class="px-4 py-2 rounded-lg bg-purple-500/20 text-purple-500 hover:bg-purple-500/30 transition-colors active"
+              class="px-4 py-2 rounded-lg bg-purple-500 text-white hover:bg-purple-500/30 transition-colors"
               data-topic="all"
             >
               All Topics
+              <span
+                class="ml-2 text-xs bg-purple-500/30 px-2 py-1 rounded-full count"
+                >0</span
+              >
             </button>
             <!-- Topic buttons will be added here dynamically -->
           </div>
@@ -809,6 +813,9 @@
         const existingButtons = Array.from(topicFilters.children);
         const allButton = existingButtons[0]; // Keep the "All Topics" button
 
+        // Add click event listener to "All Topics" button
+        allButton.addEventListener('click', () => filterByTopic('all'));
+
         // Remove old topic buttons
         existingButtons.slice(1).forEach((button) => button.remove());
 
@@ -853,9 +860,17 @@
           '[data-topic="all"] .count'
         );
         if (allCountElement) {
-          allCountElement.textContent = projects.length;
+          allCountElement.textContent = allProjects.length;
         }
       }
+
+      // Initialize the topic filters when page loads
+      document.addEventListener('DOMContentLoaded', () => {
+        const allTopicsButton = document.querySelector('[data-topic="all"]');
+        if (allTopicsButton) {
+          allTopicsButton.addEventListener('click', () => filterByTopic('all'));
+        }
+      });
 
       function filterByTopic(topic) {
         currentTopic = topic;
