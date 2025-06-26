@@ -1,11 +1,907 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Dimuth Adithya - Software Engineer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/scrollreveal"></script>
+    <script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+
+      body {
+        font-family: 'Space Grotesk', sans-serif;
+        background-color: #0a051c;
+        color: white;
+      }
+
+      .gradient-text {
+        background: linear-gradient(90deg, #a855f7, #6366f1);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+
+      .card {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.3s ease;
+      }
+
+      .card:hover {
+        transform: translateY(-5px);
+        border-color: rgba(168, 85, 247, 0.5);
+      }
+
+      .glow {
+        position: absolute;
+        width: 300px;
+        height: 300px;
+        background: radial-gradient(
+          circle,
+          rgba(168, 85, 247, 0.2) 0%,
+          rgba(99, 102, 241, 0.1) 50%,
+          transparent 70%
+        );
+        filter: blur(50px);
+        z-index: -1;
+      }
+
+      #go-to-top {
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        background: rgba(168, 85, 247, 0.2);
+        border: 1px solid rgba(168, 85, 247, 0.3);
+        backdrop-filter: blur(10px);
+        padding: 0.75rem;
+        border-radius: 0.5rem;
+        color: white;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        opacity: 0;
+        visibility: hidden;
+        z-index: 50;
+      }
+
+      #go-to-top:hover {
+        background: rgba(168, 85, 247, 0.3);
+        transform: translateY(-3px);
+      }
+
+      #go-to-top.visible {
+        opacity: 1;
+        visibility: visible;
+      }
+    </style>
   </head>
-  <body>
-    <h1>hello</h1>
+  <body class="min-h-screen">
+    <!-- Navigation -->
+    <nav
+      class="fixed w-full z-50 bg-opacity-50 backdrop-blur-lg border-b border-white/10"
+    >
+      <div class="container mx-auto px-6 py-4 max-w-5xl">
+        <div class="flex justify-between items-center">
+          <a href="#" class="text-2xl font-bold gradient-text">ƉA</a>
+          <div class="hidden md:flex space-x-8">
+            <a
+              href="#home"
+              class="text-white hover:text-purple-500 transition-colors"
+              >Home</a
+            >
+            <a
+              href="#about"
+              class="text-white hover:text-purple-500 transition-colors"
+              >About</a
+            >
+            <a
+              href="#work"
+              class="text-white hover:text-purple-500 transition-colors"
+              >Work</a
+            >
+            <a
+              href="#contact"
+              class="text-white hover:text-purple-500 transition-colors"
+              >Contact</a
+            >
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section
+      id="home"
+      class="min-h-screen flex items-center relative overflow-hidden"
+    >
+      <div class="glow top-20 left-20"></div>
+      <div class="container mx-auto px-6 py-24 max-w-5xl">
+        <div class="grid md:grid-cols-2 gap-8 items-center">
+          <div class="text-center md:text-left order-2 md:order-1">
+            <p class="text-lg mb-4">
+              Hello! I am <span class="gradient-text">Dimuth Adithya</span>
+            </p>
+            <h1 class="text-4xl md:text-6xl font-bold mb-6">
+              <span id="typewriter" class="gradient-text"></span>
+            </h1>
+            <p class="text-xl md:text-2xl mb-8 opacity-0" id="subtitle">
+              Based in Kegalle, Sri Lanka<br />
+              <span class="gradient-text">Computer Science Student</span>
+            </p>
+            <p class="text-gray-400 mb-8" id="github-bio">
+              Computer Science student with experience building web applications
+              using Laravel, PHP, JavaScript, and MySQL. Created personal
+              projects including online shopping websites and mobile-friendly
+              portfolios. Good at solving coding problems. Looking for a
+              software development internship to use my technical skills and
+              learn more in a team environment.
+            </p>
+            <div
+              class="flex gap-6 justify-center md:justify-start text-center github-stats flex-wrap"
+            >
+              <div>
+                <div class="text-2xl font-bold gradient-text" id="github-repos">
+                  0
+                </div>
+                <div class="text-gray-400">Repositories</div>
+              </div>
+              <div>
+                <div
+                  class="text-2xl font-bold gradient-text"
+                  id="github-followers"
+                >
+                  0
+                </div>
+                <div class="text-gray-400">Followers</div>
+              </div>
+              <!-- Additional stats will be added here by JavaScript -->
+            </div>
+            <div class="flex justify-center md:justify-start mt-8">
+              <a
+                href="assets/doc/Dimuth Adithya.pdf"
+                class="inline-flex items-center px-6 py-3 rounded-lg bg-purple-500 text-white hover:bg-purple-600 transition-colors group"
+                download
+              >
+                <i
+                  class="fas fa-download mr-2 group-hover:translate-y-1 transition-transform"
+                ></i>
+                Download CV
+              </a>
+            </div>
+          </div>
+          <div class="order-1 md:order-2 flex justify-center">
+            <img
+              id="profile-image"
+              src="https://via.placeholder.com/300"
+              alt="Dimuth Adithya"
+              class="w-64 h-64 rounded-full border-4 border-purple-500/20 object-cover shadow-lg"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Education Section -->
+    <section id="work" class="py-24 relative">
+      <div class="glow top-1/2 right-20"></div>
+      <div class="container mx-auto px-6 max-w-5xl">
+        <h2 class="text-3xl font-bold mb-12">Education</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div class="card rounded-xl p-6">
+            <div
+              class="w-16 h-16 mb-4 bg-purple-500/20 rounded-lg flex items-center justify-center"
+            >
+              <i class="fas fa-graduation-cap text-2xl text-purple-500"></i>
+            </div>
+            <h3 class="text-xl font-bold mb-2">
+              Higher National Diploma in IT
+            </h3>
+            <p class="text-gray-400 mb-2">
+              Sri Lanka Institute of Advanced Technical Education (SLIATE)
+            </p>
+            <p class="text-purple-500">2023-Present</p>
+            <p class="text-gray-400 mt-2">Kegalle, Sri Lanka</p>
+          </div>
+
+          <div class="card rounded-xl p-6">
+            <div
+              class="w-16 h-16 mb-4 bg-indigo-500/20 rounded-lg flex items-center justify-center"
+            >
+              <i class="fas fa-school text-2xl text-indigo-500"></i>
+            </div>
+            <h3 class="text-xl font-bold mb-2">GCE Advanced Level</h3>
+            <p class="text-gray-400 mb-2">Kegalu Vidyalaya, Kegalle</p>
+            <p class="text-purple-500">2020</p>
+            <p class="text-gray-400 mt-2">
+              Results: A (1), B (2) | Z-Score: +1.1862
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="py-24 relative">
+      <div class="container mx-auto px-6 max-w-5xl">
+        <h2 class="text-3xl font-bold mb-12">All Projects</h2>
+        <div class="mb-8 flex justify-center">
+          <div class="relative">
+            <input
+              type="text"
+              id="project-search"
+              placeholder="Search projects..."
+              class="w-full md:w-96 px-4 py-2 rounded-lg bg-purple-500/10 border border-purple-500/20 text-white placeholder-purple-300 focus:outline-none focus:border-purple-500/50"
+            />
+            <i
+              class="fas fa-search absolute right-3 top-1/2 transform -translate-y-1/2 text-purple-500"
+            ></i>
+          </div>
+        </div>
+        <div
+          id="github-projects"
+          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8"
+        >
+          <!-- GitHub projects will be loaded here -->
+          <div class="card rounded-xl p-6 animate-pulse">
+            <div class="h-8 bg-purple-500/20 rounded w-3/4 mb-4"></div>
+            <div class="h-20 bg-purple-500/10 rounded mb-4"></div>
+            <div class="flex gap-3 mb-6">
+              <div class="h-6 w-20 bg-purple-500/20 rounded-full"></div>
+              <div class="h-6 w-20 bg-purple-500/20 rounded-full"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section class="py-24 relative">
+      <div class="glow bottom-20 left-1/2"></div>
+      <div class="container mx-auto px-6 max-w-5xl">
+        <h2 class="text-3xl font-bold mb-12 text-center">Skills</h2>
+        <div class="grid md:grid-cols-2 gap-12">
+          <div class="card rounded-xl p-6">
+            <h3 class="text-xl font-bold mb-6 gradient-text">
+              Technical Skills
+            </h3>
+
+            <div class="mb-6">
+              <h4 class="text-lg font-semibold mb-3">
+                <i class="fas fa-code mr-2 text-purple-500"></i>Programming
+                Languages
+              </h4>
+              <div class="flex flex-wrap gap-3">
+                <span
+                  class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-500 text-sm"
+                >
+                  <i class="fab fa-php mr-1"></i>PHP
+                </span>
+                <span
+                  class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-500 text-sm"
+                >
+                  <i class="fab fa-js mr-1"></i>JavaScript
+                </span>
+                <span
+                  class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-500 text-sm"
+                >
+                  <i class="fab fa-java mr-1"></i>Java
+                </span>
+                <span
+                  class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-500 text-sm"
+                >
+                  <i class="fab fa-microsoft mr-1"></i>C#
+                </span>
+                <span
+                  class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-500 text-sm"
+                >
+                  <i class="fab fa-html5 mr-1"></i>HTML
+                </span>
+                <span
+                  class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-500 text-sm"
+                >
+                  <i class="fab fa-css3-alt mr-1"></i>CSS
+                </span>
+                <span
+                  class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-500 text-sm"
+                >
+                  <i class="fas fa-database mr-1"></i>SQL
+                </span>
+              </div>
+            </div>
+
+            <div class="mb-6">
+              <h4 class="text-lg font-semibold mb-3">
+                <i class="fas fa-layer-group mr-2 text-purple-500"></i
+                >Frameworks & Libraries
+              </h4>
+              <div class="flex flex-wrap gap-3">
+                <span
+                  class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-500 text-sm"
+                >
+                  <i class="fab fa-laravel mr-1"></i>Laravel
+                </span>
+                <span
+                  class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-500 text-sm"
+                >
+                  <i class="fab fa-vuejs mr-1"></i>Vue.js
+                </span>
+                <span
+                  class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-500 text-sm"
+                >
+                  <i class="fab fa-react mr-1"></i>React
+                </span>
+                <span
+                  class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-500 text-sm"
+                >
+                  <i class="fab fa-js mr-1"></i>jQuery
+                </span>
+                <span
+                  class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-500 text-sm"
+                >
+                  <i class="fab fa-bootstrap mr-1"></i>Bootstrap
+                </span>
+                <span
+                  class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-500 text-sm"
+                >
+                  <i class="fab fa-css3 mr-1"></i>Tailwind
+                </span>
+              </div>
+            </div>
+
+            <div class="mb-6">
+              <h4 class="text-lg font-semibold mb-3">
+                <i class="fas fa-tools mr-2 text-purple-500"></i>Tools &
+                Platforms
+              </h4>
+              <div class="flex flex-wrap gap-3">
+                <span
+                  class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-500 text-sm"
+                >
+                  <i class="fab fa-git-alt mr-1"></i>Git
+                </span>
+                <span
+                  class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-500 text-sm"
+                >
+                  <i class="fab fa-github mr-1"></i>GitHub
+                </span>
+                <span
+                  class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-500 text-sm"
+                >
+                  <i class="fas fa-database mr-1"></i>MySQL Workbench
+                </span>
+                <span
+                  class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-500 text-sm"
+                >
+                  <i class="fas fa-coffee mr-1"></i>NetBeans
+                </span>
+                <span
+                  class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-500 text-sm"
+                >
+                  <i class="fas fa-code mr-1"></i>VS Code
+                </span>
+                <span
+                  class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-500 text-sm"
+                >
+                  <i class="fas fa-paper-plane mr-1"></i>Postman
+                </span>
+                <span
+                  class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-500 text-sm"
+                >
+                  <i class="fas fa-pencil-ruler mr-1"></i>Figma
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card rounded-xl p-6">
+            <h3 class="text-xl font-bold mb-6 gradient-text">Soft Skills</h3>
+            <ul class="space-y-4">
+              <li
+                class="flex items-center p-2 hover:bg-purple-500/10 rounded-lg transition-colors"
+              >
+                <i class="fas fa-users text-purple-500 mr-3 text-xl"></i>
+                <span>Teamwork & Collaboration</span>
+              </li>
+              <li
+                class="flex items-center p-2 hover:bg-purple-500/10 rounded-lg transition-colors"
+              >
+                <i class="fas fa-comments text-purple-500 mr-3 text-xl"></i>
+                <span>Communication</span>
+              </li>
+              <li
+                class="flex items-center p-2 hover:bg-purple-500/10 rounded-lg transition-colors"
+              >
+                <i class="fas fa-lightbulb text-purple-500 mr-3 text-xl"></i>
+                <span>Problem-Solving</span>
+              </li>
+              <li
+                class="flex items-center p-2 hover:bg-purple-500/10 rounded-lg transition-colors"
+              >
+                <i class="fas fa-clock text-purple-500 mr-3 text-xl"></i>
+                <span>Time Management</span>
+              </li>
+              <li
+                class="flex items-center p-2 hover:bg-purple-500/10 rounded-lg transition-colors"
+              >
+                <i class="fas fa-sync-alt text-purple-500 mr-3 text-xl"></i>
+                <span>Adaptability</span>
+              </li>
+              <li
+                class="flex items-center p-2 hover:bg-purple-500/10 rounded-lg transition-colors"
+              >
+                <i
+                  class="fas fa-tachometer-alt text-purple-500 mr-3 text-xl"
+                ></i>
+                <span>Ability to Work Under Pressure</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-24 relative">
+      <div class="glow bottom-0 right-0"></div>
+      <div class="container mx-auto px-6 text-center max-w-5xl">
+        <h2 class="text-3xl font-bold mb-8">Contact</h2>
+        <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto mb-12">
+          <div class="card rounded-xl p-6">
+            <h3 class="text-xl font-bold mb-6 gradient-text">
+              Contact Information
+            </h3>
+            <div class="space-y-4">
+              <div class="flex items-center justify-center md:justify-start">
+                <i class="fas fa-phone-alt text-purple-500 mr-3"></i>
+                <a
+                  href="tel:+94713969520"
+                  class="hover:text-purple-500 transition-colors"
+                  >+94 713 969 520</a
+                >
+              </div>
+              <div class="flex items-center justify-center md:justify-start">
+                <i class="fas fa-envelope text-purple-500 mr-3"></i>
+                <a
+                  href="mailto:dimuthadithya01@gmail.com"
+                  class="hover:text-purple-500 transition-colors"
+                  >dimuthadithya01@gmail.com</a
+                >
+              </div>
+              <div class="flex items-center justify-center md:justify-start">
+                <i class="fas fa-map-marker-alt text-purple-500 mr-3"></i>
+                <span>Kegalle, Sri Lanka</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card rounded-xl p-6">
+            <h3 class="text-xl font-bold mb-6 gradient-text">References</h3>
+            <div class="space-y-6">
+              <div>
+                <h4 class="font-semibold mb-1">Mohammadu Samly</h4>
+                <p class="text-gray-400 text-sm">
+                  Coordinator FBIT cum Lecturer IT
+                </p>
+                <p class="text-gray-400 text-sm">BCAS Kandy Campus</p>
+                <a
+                  href="mailto:Samly@bcas.lk"
+                  class="text-purple-500 hover:text-purple-400 transition-colors text-sm"
+                  >Samly@bcas.lk</a
+                >
+                <p class="text-gray-400 text-sm">0771930706</p>
+              </div>
+              <div>
+                <h4 class="font-semibold mb-1">Mrs. D. Wepathana</h4>
+                <p class="text-gray-400 text-sm">Senior Lecturer, Head of IT</p>
+                <p class="text-gray-400 text-sm">SLIATE</p>
+                <p class="text-gray-400 text-sm">0716307902</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex justify-center space-x-6">
+          <a
+            href="https://github.com/dimuthadithya"
+            target="_blank"
+            class="text-white hover:text-purple-500 transition-colors"
+          >
+            <i class="fab fa-github text-2xl"></i>
+          </a>
+          <a
+            href="https://www.linkedin.com/in/dimuthadithya"
+            target="_blank"
+            class="text-white hover:text-purple-500 transition-colors"
+          >
+            <i class="fab fa-linkedin text-2xl"></i>
+          </a>
+          <a
+            href="dimuthadithya.me"
+            target="_blank"
+            class="text-white hover:text-purple-500 transition-colors"
+          >
+            <i class="fas fa-globe text-2xl"></i>
+          </a>
+        </div>
+
+        <!-- LinkedIn Badge -->
+        <div class="mt-8 flex justify-center">
+          <div
+            class="badge-base LI-profile-badge"
+            data-locale="en_US"
+            data-size="medium"
+            data-theme="dark"
+            data-type="VERTICAL"
+            data-vanity="dimuth-adithya"
+            data-version="v1"
+          >
+            <a
+              class="badge-base__link LI-simple-link"
+              href="https://lk.linkedin.com/in/dimuth-adithya?trk=profile-badge"
+              >Dimuth Adithya</a
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div
+      id="go-to-top"
+      class="flex items-center justify-center w-12 h-12 rounded-full shadow-lg"
+    >
+      <i class="fas fa-arrow-up text-2xl"></i>
+    </div>
+
+    <script
+      src="https://platform.linkedin.com/badges/js/profile.js"
+      async
+      defer
+      type="text/javascript"
+    ></script>
+    <script>
+      // Initialize ScrollReveal
+      ScrollReveal().reveal('.card', {
+        delay: 200,
+        distance: '20px',
+        origin: 'bottom',
+        opacity: 0,
+        duration: 1000,
+        easing: 'cubic-bezier(0.5, 0, 0, 1)'
+      });
+
+      // Smooth scroll for navigation links
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+          document.querySelector(this.getAttribute('href')).scrollIntoView({
+            behavior: 'smooth'
+          });
+        });
+      });
+
+      // GitHub API Integration
+      async function fetchGitHubData() {
+        const username = 'dimuthadithya';
+        try {
+          // Fetch user profile
+          const userResponse = await fetch(
+            `https://api.github.com/users/${username}`
+          );
+          const userData = await userResponse.json();
+
+          // Fetch all repositories for total stats
+          const allReposResponse = await fetch(
+            `https://api.github.com/users/${username}/repos?per_page=100`
+          );
+          const allReposData = await allReposResponse.json();
+
+          // Use allReposData for displaying all repositories
+          const reposData = allReposData.sort(
+            (a, b) => new Date(b.updated_at) - new Date(a.updated_at)
+          );
+
+          // Calculate total stars
+          const totalStars = allReposData.reduce(
+            (acc, repo) => acc + repo.stargazers_count,
+            0
+          );
+
+          // Calculate language statistics
+          const languages = {};
+          allReposData.forEach((repo) => {
+            if (repo.language) {
+              languages[repo.language] = (languages[repo.language] || 0) + 1;
+            }
+          });
+
+          // Sort languages by usage
+          const sortedLanguages = Object.entries(languages)
+            .sort((a, b) => b[1] - a[1])
+            .slice(0, 3);
+
+          // Update profile image
+          if (userData.avatar_url) {
+            document.getElementById('profile-image').src = userData.avatar_url;
+          }
+
+          // Update GitHub stats
+          document.getElementById('github-bio').textContent =
+            userData.bio || '';
+          document.getElementById('github-repos').textContent =
+            userData.public_repos || '0';
+          document.getElementById('github-followers').textContent =
+            userData.followers || '0';
+
+          // Add languages stats if the container exists
+          const statsContainer = document.querySelector('.github-stats');
+          if (statsContainer) {
+            statsContainer.innerHTML += `
+              <div>
+                <div class="text-2xl font-bold gradient-text">${totalStars}</div>
+                <div class="text-gray-400">Total Stars</div>
+              </div>
+              <div>
+                <div class="text-2xl font-bold gradient-text">${
+                  sortedLanguages[0]?.[0] || 'N/A'
+                }</div>
+                <div class="text-gray-400">Top Language</div>
+              </div>
+            `;
+          }
+
+          // Store all projects globally
+          allProjects = reposData;
+          displayProjects(allProjects);
+
+          // Update projects section
+          const projectsContainer = document.getElementById('github-projects');
+          projectsContainer.innerHTML = reposData
+            .map(
+              (repo) => `
+            <div class="card rounded-xl p-6 group">
+              <div class="flex items-center mb-4">
+                <i class="fas fa-folder text-purple-500 text-2xl mr-3 group-hover:rotate-[-15deg] transition-transform"></i>
+                <h3 class="text-xl font-bold">${repo.name}</h3>
+              </div>
+              <p class="text-gray-400 mb-4">${
+                repo.description || 'No description available'
+              }</p>
+              <div class="flex gap-3 mb-6 flex-wrap">
+                ${
+                  repo.language
+                    ? `<span class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-500 text-sm flex items-center">
+                        <i class="fas fa-code mr-1"></i>${repo.language}
+                      </span>`
+                    : ''
+                }
+                <span class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-500 text-sm flex items-center">
+                  <i class="fas fa-star mr-1"></i>${repo.stargazers_count} stars
+                </span>
+                <span class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-500 text-sm flex items-center">
+                  <i class="fas fa-code-branch mr-1"></i>${
+                    repo.forks_count
+                  } forks
+                </span>
+                <span class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-500 text-sm flex items-center">
+                  <i class="fas fa-eye mr-1"></i>${repo.watchers_count} watchers
+                </span>
+              </div>
+              <div class="flex gap-3 mb-6 flex-wrap">
+                <span class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-500 text-sm flex items-center">
+                  <i class="far fa-calendar-alt mr-1"></i>Created: ${new Date(
+                    repo.created_at
+                  ).toLocaleDateString()}
+                </span>
+                <span class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-500 text-sm flex items-center">
+                  <i class="fas fa-sync-alt mr-1"></i>Updated: ${new Date(
+                    repo.updated_at
+                  ).toLocaleDateString()}
+                </span>
+                ${
+                  repo.homepage
+                    ? `<span class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-500 text-sm flex items-center">
+                        <i class="fas fa-globe mr-1"></i>Has Demo
+                      </span>`
+                    : ''
+                }
+                ${
+                  repo.topics && repo.topics.length
+                    ? `<div class="flex gap-2 flex-wrap">
+                        ${repo.topics
+                          .map(
+                            (topic) =>
+                              `<span class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-500 text-sm">
+                            #${topic}
+                          </span>`
+                          )
+                          .join('')}
+                      </div>`
+                    : ''
+                }
+              </div>
+              <div class="flex gap-3">
+                <a href="${repo.html_url}" target="_blank" 
+                   class="inline-flex items-center px-4 py-2 rounded-lg bg-purple-500/20 text-purple-500 hover:bg-purple-500/30 transition-colors">
+                  <i class="fab fa-github mr-2"></i>View Source
+                  <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                </a>
+                ${
+                  repo.homepage
+                    ? `<a href="${repo.homepage}" target="_blank" 
+                         class="inline-flex items-center px-4 py-2 rounded-lg bg-purple-500/20 text-purple-500 hover:bg-purple-500/30 transition-colors">
+                        <i class="fas fa-external-link-alt mr-2"></i>Live Demo
+                      </a>`
+                    : ''
+                }
+              </div>
+            </div>
+          `
+            )
+            .join('');
+        } catch (error) {
+          console.error('Error fetching GitHub data:', error);
+        }
+      }
+
+      // Call the function when the page loads
+      window.addEventListener('load', fetchGitHubData);
+
+      // Initialize Typed.js for the typewriter effect
+      const typed = new Typed('#typewriter', {
+        strings: [
+          'Intern Software Engineer',
+          'Web Developer',
+          'UI/UX Designer'
+        ],
+        typeSpeed: 50,
+        backSpeed: 30,
+        backDelay: 2000,
+        startDelay: 500,
+        loop: true
+      });
+
+      // Show subtitle (replacing GSAP animation with simple CSS)
+      document.getElementById('subtitle').style.opacity = 1;
+
+      // Project search functionality
+      let allProjects = [];
+
+      function filterProjects(searchTerm) {
+        const filteredProjects = searchTerm
+          ? allProjects.filter(
+              (project) =>
+                project.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                (project.description &&
+                  project.description
+                    .toLowerCase()
+                    .includes(searchTerm.toLowerCase())) ||
+                (project.language &&
+                  project.language
+                    .toLowerCase()
+                    .includes(searchTerm.toLowerCase())) ||
+                (project.topics &&
+                  project.topics.some((topic) =>
+                    topic.toLowerCase().includes(searchTerm.toLowerCase())
+                  ))
+            )
+          : allProjects;
+
+        displayProjects(filteredProjects);
+      }
+
+      function displayProjects(projects) {
+        const projectsContainer = document.getElementById('github-projects');
+
+        if (projects.length === 0) {
+          projectsContainer.innerHTML = `
+            <div class="col-span-full text-center py-12">
+              <i class="fas fa-folder-open text-4xl text-purple-500 mb-4"></i>
+              <p class="text-gray-400">No projects found matching your search.</p>
+            </div>
+          `;
+          return;
+        }
+
+        projectsContainer.innerHTML = projects
+          .map(
+            (repo) => `
+          <div class="card rounded-xl p-6 group">
+            <div class="flex items-center justify-between mb-4">
+              <div class="flex items-center">
+                <i class="fas fa-folder text-purple-500 text-2xl mr-3 group-hover:rotate-[-15deg] transition-transform"></i>
+                <h3 class="text-xl font-bold">${repo.name}</h3>
+              </div>
+              ${
+                repo.private
+                  ? '<span class="px-2 py-1 rounded bg-purple-500/20 text-purple-500 text-xs">Private</span>'
+                  : ''
+              }
+            </div>
+            <p class="text-gray-400 mb-4 line-clamp-2">${
+              repo.description || 'No description available'
+            }</p>
+            <div class="flex gap-3 mb-6 flex-wrap">
+              ${
+                repo.language
+                  ? `<span class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-500 text-sm flex items-center">
+                  <i class="fas fa-code mr-1"></i>${repo.language}
+                </span>`
+                  : ''
+              }
+              <span class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-500 text-sm flex items-center">
+                <i class="fas fa-star mr-1"></i>${repo.stargazers_count} stars
+              </span>
+              <span class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-500 text-sm flex items-center">
+                <i class="fas fa-code-branch mr-1"></i>${repo.forks_count} forks
+              </span>
+              <span class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-500 text-sm flex items-center">
+                <i class="fas fa-eye mr-1"></i>${repo.watchers_count} watchers
+              </span>
+            </div>
+            <div class="flex gap-3 mb-6 flex-wrap">
+              <span class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-500 text-sm flex items-center">
+                <i class="far fa-calendar-alt mr-1"></i>Created: ${new Date(
+                  repo.created_at
+                ).toLocaleDateString()}
+              </span>
+              <span class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-500 text-sm flex items-center">
+                <i class="fas fa-sync-alt mr-1"></i>Updated: ${new Date(
+                  repo.updated_at
+                ).toLocaleDateString()}
+              </span>
+              ${
+                repo.homepage
+                  ? `<span class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-500 text-sm flex items-center">
+                  <i class="fas fa-globe mr-1"></i>Has Demo
+                </span>`
+                  : ''
+              }
+            </div>
+            ${
+              repo.topics && repo.topics.length
+                ? `<div class="flex gap-2 flex-wrap mb-6">
+                ${repo.topics
+                  .map(
+                    (topic) =>
+                      `<span class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-500 text-sm">#${topic}</span>`
+                  )
+                  .join('')}
+              </div>`
+                : ''
+            }
+            <div class="flex gap-3">
+              <a href="${repo.html_url}" target="_blank" 
+                 class="inline-flex items-center px-4 py-2 rounded-lg bg-purple-500/20 text-purple-500 hover:bg-purple-500/30 transition-colors">
+                <i class="fab fa-github mr-2"></i>View Source
+                <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+              </a>
+              ${
+                repo.homepage
+                  ? `<a href="${repo.homepage}" target="_blank" 
+                   class="inline-flex items-center px-4 py-2 rounded-lg bg-purple-500/20 text-purple-500 hover:bg-purple-500/30 transition-colors">
+                  <i class="fas fa-external-link-alt mr-2"></i>Live Demo
+                </a>`
+                  : ''
+              }
+            </div>
+          </div>
+        `
+          )
+          .join('');
+      }
+
+      // Initialize project search
+      document
+        .getElementById('project-search')
+        ?.addEventListener('input', (e) => {
+          filterProjects(e.target.value.trim());
+        });
+    </script>
   </body>
 </html>
