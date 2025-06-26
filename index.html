@@ -582,6 +582,12 @@
       type="text/javascript"
     ></script>
     <script>
+      // GitHub Personal Access Token (PAT) Configuration
+      // Add your token here to avoid API rate limits
+      // Generate a token at: https://github.com/settings/tokens
+      // Required scopes: public_repo, read:user
+      const GITHUB_TOKEN = ''; // Add your token here
+
       // Initialize ScrollReveal
       ScrollReveal().reveal('.card', {
         delay: 200,
@@ -605,55 +611,77 @@
       // GitHub API Integration
       async function fetchGitHubData() {
         const username = 'dimuthadithya';
+        const headers = GITHUB_TOKEN
+          ? { Authorization: `token ${GITHUB_TOKEN}` }
+          : {};
+
         try {
-          // Fetch user profile
+          // Fetch user profile with token if available
           const userResponse = await fetch(
-            `https://api.github.com/users/${username}`
+            `https://api.github.com/users/${username}`,
+            { headers }
           );
+
+          if (userResponse.status === 403) {
+            console.error(
+              'GitHub API rate limit exceeded. Please add a personal access token.'
+            );
+            alert(
+              'GitHub API rate limit exceeded. Please add your GitHub personal access token in the code.'
+            );
+            return;
+          }
+
           const userData = await userResponse.json();
 
-          // Fetch all repositories for total stats
+          // Fetch all repositories with token if available
           const allReposResponse = await fetch(
-            `https://api.github.com/users/${username}/repos?per_page=100`
+            `https://api.github.com/users/${username}/repos?per_page=100`,
+            { headers }
           );
+
+          if (allReposResponse.status === 403) {
+            console.error(
+              'GitHub API rate limit exceeded while fetching repos.'
+            );
+            return;
+          }
+
           const allReposData = await allReposResponse.json();
 
-          // Use allReposData for displaying all repositories
-          const reposData = allReposData.sort(
-            (a, b) => new Date(b.updated_at) - new Date(a.updated_at)
+          // Fetch languages for each repo with token if available
+          const repoLanguages = await Promise.all(
+            allReposData.map(async (repo) => {
+              const langResponse = await fetch(repo.languages_url, { headers });
+              if (langResponse.status === 403) {
+                console.error(
+                  `Rate limit exceeded when fetching languages for ${repo.name}`
+                );
+                return {};
+              }
+              return langResponse.json();
+            })
           );
 
-          // Calculate total stars
+          // Calculate total stars and fork counts
           const totalStars = allReposData.reduce(
-            (acc, repo) => acc + repo.stargazers_count,
+            (sum, repo) => sum + repo.stargazers_count,
+            0
+          );
+          const totalForks = allReposData.reduce(
+            (sum, repo) => sum + repo.forks_count,
             0
           );
 
-          // Calculate language statistics
-          const languages = {};
-          allReposData.forEach((repo) => {
-            if (repo.language) {
-              languages[repo.language] = (languages[repo.language] || 0) + 1;
-            }
-          });
-
-          // Sort languages by usage
-          const sortedLanguages = Object.entries(languages)
-            .sort((a, b) => b[1] - a[1])
-            .slice(0, 3);
-
-          // Update profile image
-          if (userData.avatar_url) {
-            document.getElementById('profile-image').src = userData.avatar_url;
-          }
-
-          // Update GitHub stats
+          // Update profile section with user data
+          document.getElementById('github-avatar').src = userData.avatar_url;
           document.getElementById('github-bio').textContent =
             userData.bio || '';
-          document.getElementById('github-repos').textContent =
-            userData.public_repos || '0';
-          document.getElementById('github-followers').textContent =
-            userData.followers || '0';
+          document.getElementById('repo-count').textContent =
+            userData.public_repos;
+          document.getElementById('followers-count').textContent =
+            userData.followers;
+          document.getElementById('total-stars').textContent = totalStars;
 
           // Add languages stats if the container exists
           const statsContainer = document.querySelector('.github-stats');
