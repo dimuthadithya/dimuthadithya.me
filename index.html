@@ -295,12 +295,12 @@
               </h4>
               <div class="flex flex-wrap gap-3">
                 <span
-                  class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-500 text-sm"
+                  class="skills-item px-3 py-1 rounded-full bg-purple-500/20 text-purple-500 text-sm"
                 >
                   <i class="fab fa-php mr-1"></i>PHP
                 </span>
                 <span
-                  class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-500 text-sm"
+                  class="skills-item px-3 py-1 rounded-full bg-purple-500/20 text-purple-500 text-sm"
                 >
                   <i class="fab fa-js mr-1"></i>JavaScript
                 </span>
@@ -339,12 +339,12 @@
               </h4>
               <div class="flex flex-wrap gap-3">
                 <span
-                  class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-500 text-sm"
+                  class="skills-item px-3 py-1 rounded-full bg-purple-500/20 text-purple-500 text-sm"
                 >
                   <i class="fab fa-laravel mr-1"></i>Laravel
                 </span>
                 <span
-                  class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-500 text-sm"
+                  class="skills-item px-3 py-1 rounded-full bg-purple-500/20 text-purple-500 text-sm"
                 >
                   <i class="fab fa-vuejs mr-1"></i>Vue.js
                 </span>
@@ -420,13 +420,13 @@
             <h3 class="text-xl font-bold mb-6 gradient-text">Soft Skills</h3>
             <ul class="space-y-4">
               <li
-                class="flex items-center p-2 hover:bg-purple-500/10 rounded-lg transition-colors"
+                class="skills-item flex items-center p-2 hover:bg-purple-500/10 rounded-lg transition-colors"
               >
                 <i class="fas fa-users text-purple-500 mr-3 text-xl"></i>
                 <span>Teamwork & Collaboration</span>
               </li>
               <li
-                class="flex items-center p-2 hover:bg-purple-500/10 rounded-lg transition-colors"
+                class="skills-item flex items-center p-2 hover:bg-purple-500/10 rounded-lg transition-colors"
               >
                 <i class="fas fa-comments text-purple-500 mr-3 text-xl"></i>
                 <span>Communication</span>
@@ -590,6 +590,16 @@
         opacity: 0,
         duration: 1000,
         easing: 'cubic-bezier(0.5, 0, 0, 1)'
+      });
+
+      // Additional ScrollReveal for skills items
+      ScrollReveal().reveal('.skills-item', {
+        delay: 200,
+        distance: '20px',
+        origin: 'left',
+        opacity: 0,
+        duration: 800,
+        interval: 100
       });
 
       // GitHub Data Integration
