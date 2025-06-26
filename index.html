@@ -582,12 +582,6 @@
       type="text/javascript"
     ></script>
     <script>
-      // GitHub Personal Access Token (PAT) Configuration
-      // Add your token here to avoid API rate limits
-      // Generate a token at: https://github.com/settings/tokens
-      // Required scopes: public_repo, read:user
-      const GITHUB_TOKEN = ''; // Add your token here
-
       // Initialize ScrollReveal
       ScrollReveal().reveal('.card', {
         delay: 200,
@@ -598,6 +592,82 @@
         easing: 'cubic-bezier(0.5, 0, 0, 1)'
       });
 
+      // GitHub Data Integration
+      async function fetchGitHubData() {
+        try {
+          // Fetch cached GitHub data
+          const response = await fetch('./data/github-data.json');
+          const data = await response.json();
+
+          const { profile: userData, repos: allReposData, stats } = data;
+
+          // Update profile section
+          if (document.getElementById('profile-image')) {
+            document.getElementById('profile-image').src = userData.avatar_url;
+          }
+          if (document.getElementById('github-bio')) {
+            document.getElementById('github-bio').textContent =
+              userData.bio || '';
+          }
+          if (document.getElementById('github-repos')) {
+            document.getElementById('github-repos').textContent =
+              stats.totalRepos;
+          }
+          if (document.getElementById('github-followers')) {
+            document.getElementById('github-followers').textContent =
+              userData.followers;
+          }
+
+          // Add stats if container exists
+          const statsContainer = document.querySelector('.github-stats');
+          if (statsContainer) {
+            statsContainer.innerHTML += `
+              <div>
+                <div class="text-2xl font-bold gradient-text">${
+                  stats.totalStars
+                }</div>
+                <div class="text-gray-400">Total Stars</div>
+              </div>
+              <div>
+                <div class="text-2xl font-bold gradient-text">${
+                  getTopLanguage(allReposData) || 'N/A'
+                }</div>
+                <div class="text-gray-400">Top Language</div>
+              </div>
+            `;
+          }
+
+          // Store all projects globally and initialize filters
+          allProjects = allReposData;
+          const topics = collectTopics(allProjects);
+          updateTopicFilters(topics);
+          updateTopicCounts(allProjects);
+          displayProjects(allProjects);
+        } catch (error) {
+          console.error('Error loading GitHub data:', error);
+          document.getElementById('github-projects').innerHTML = `
+            <div class="col-span-full text-center py-12">
+              <i class="fas fa-exclamation-circle text-4xl text-purple-500 mb-4"></i>
+              <p class="text-gray-400">Unable to load GitHub projects. Please try again later.</p>
+            </div>
+          `;
+        }
+      }
+
+      // Helper function to get the most used language
+      function getTopLanguage(repos) {
+        const languageCounts = {};
+        repos.forEach((repo) => {
+          if (repo.language) {
+            languageCounts[repo.language] =
+              (languageCounts[repo.language] || 0) + 1;
+          }
+        });
+        return Object.entries(languageCounts).sort(
+          (a, b) => b[1] - a[1]
+        )[0]?.[0];
+      }
+
       // Smooth scroll for navigation links
       document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
         anchor.addEventListener('click', function (e) {
@@ -607,199 +677,6 @@
           });
         });
       });
-
-      // GitHub API Integration
-      async function fetchGitHubData() {
-        const username = 'dimuthadithya';
-        const headers = GITHUB_TOKEN
-          ? { Authorization: `token ${GITHUB_TOKEN}` }
-          : {};
-
-        try {
-          // Fetch user profile with token if available
-          const userResponse = await fetch(
-            `https://api.github.com/users/${username}`,
-            { headers }
-          );
-
-          if (userResponse.status === 403) {
-            console.error(
-              'GitHub API rate limit exceeded. Please add a personal access token.'
-            );
-            alert(
-              'GitHub API rate limit exceeded. Please add your GitHub personal access token in the code.'
-            );
-            return;
-          }
-
-          const userData = await userResponse.json();
-
-          // Fetch all repositories with token if available
-          const allReposResponse = await fetch(
-            `https://api.github.com/users/${username}/repos?per_page=100`,
-            { headers }
-          );
-
-          if (allReposResponse.status === 403) {
-            console.error(
-              'GitHub API rate limit exceeded while fetching repos.'
-            );
-            return;
-          }
-
-          const allReposData = await allReposResponse.json();
-
-          // Fetch languages for each repo with token if available
-          const repoLanguages = await Promise.all(
-            allReposData.map(async (repo) => {
-              const langResponse = await fetch(repo.languages_url, { headers });
-              if (langResponse.status === 403) {
-                console.error(
-                  `Rate limit exceeded when fetching languages for ${repo.name}`
-                );
-                return {};
-              }
-              return langResponse.json();
-            })
-          );
-
-          // Calculate total stars and fork counts
-          const totalStars = allReposData.reduce(
-            (sum, repo) => sum + repo.stargazers_count,
-            0
-          );
-          const totalForks = allReposData.reduce(
-            (sum, repo) => sum + repo.forks_count,
-            0
-          );
-
-          // Update profile section with user data
-          document.getElementById('github-avatar').src = userData.avatar_url;
-          document.getElementById('github-bio').textContent =
-            userData.bio || '';
-          document.getElementById('repo-count').textContent =
-            userData.public_repos;
-          document.getElementById('followers-count').textContent =
-            userData.followers;
-          document.getElementById('total-stars').textContent = totalStars;
-
-          // Add languages stats if the container exists
-          const statsContainer = document.querySelector('.github-stats');
-          if (statsContainer) {
-            statsContainer.innerHTML += `
-              <div>
-                <div class="text-2xl font-bold gradient-text">${totalStars}</div>
-                <div class="text-gray-400">Total Stars</div>
-              </div>
-              <div>
-                <div class="text-2xl font-bold gradient-text">${
-                  sortedLanguages[0]?.[0] || 'N/A'
-                }</div>
-                <div class="text-gray-400">Top Language</div>
-              </div>
-            `;
-          }
-
-          // Store all projects globally
-          allProjects = reposData;
-
-          // Initialize topic filters
-          const topics = collectTopics(allProjects);
-          updateTopicFilters(topics);
-          updateTopicCounts(allProjects);
-
-          // Display all projects initially
-          displayProjects(allProjects);
-
-          // Update projects section
-          const projectsContainer = document.getElementById('github-projects');
-          projectsContainer.innerHTML = reposData
-            .map(
-              (repo) => `
-            <div class="card rounded-xl p-6 group">
-              <div class="flex items-center mb-4">
-                <i class="fas fa-folder text-purple-500 text-2xl mr-3 group-hover:rotate-[-15deg] transition-transform"></i>
-                <h3 class="text-xl font-bold">${repo.name}</h3>
-              </div>
-              <p class="text-gray-400 mb-4">${
-                repo.description || 'No description available'
-              }</p>
-              <div class="flex gap-3 mb-6 flex-wrap">
-                ${
-                  repo.language
-                    ? `<span class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-500 text-sm flex items-center">
-                        <i class="fas fa-code mr-1"></i>${repo.language}
-                      </span>`
-                    : ''
-                }
-                <span class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-500 text-sm flex items-center">
-                  <i class="fas fa-star mr-1"></i>${repo.stargazers_count} stars
-                </span>
-                <span class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-500 text-sm flex items-center">
-                  <i class="fas fa-code-branch mr-1"></i>${
-                    repo.forks_count
-                  } forks
-                </span>
-                <span class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-500 text-sm flex items-center">
-                  <i class="fas fa-eye mr-1"></i>${repo.watchers_count} watchers
-                </span>
-              </div>
-              <div class="flex gap-3 mb-6 flex-wrap">
-                <span class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-500 text-sm flex items-center">
-                  <i class="far fa-calendar-alt mr-1"></i>Created: ${new Date(
-                    repo.created_at
-                  ).toLocaleDateString()}
-                </span>
-                <span class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-500 text-sm flex items-center">
-                  <i class="fas fa-sync-alt mr-1"></i>Updated: ${new Date(
-                    repo.updated_at
-                  ).toLocaleDateString()}
-                </span>
-                ${
-                  repo.homepage
-                    ? `<span class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-500 text-sm flex items-center">
-                        <i class="fas fa-globe mr-1"></i>Has Demo
-                      </span>`
-                    : ''
-                }
-                ${
-                  repo.topics && repo.topics.length
-                    ? `<div class="flex gap-2 flex-wrap">
-                        ${repo.topics
-                          .map(
-                            (topic) =>
-                              `<span class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-500 text-sm">
-                            #${topic}
-                          </span>`
-                          )
-                          .join('')}
-                      </div>`
-                    : ''
-                }
-              </div>
-              <div class="flex gap-3">
-                <a href="${repo.html_url}" target="_blank" 
-                   class="inline-flex items-center px-4 py-2 rounded-lg bg-purple-500/20 text-purple-500 hover:bg-purple-500/30 transition-colors">
-                  <i class="fab fa-github mr-2"></i>View Source
-                  <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
-                </a>
-                ${
-                  repo.homepage
-                    ? `<a href="${repo.homepage}" target="_blank" 
-                         class="inline-flex items-center px-4 py-2 rounded-lg bg-purple-500/20 text-purple-500 hover:bg-purple-500/30 transition-colors">
-                        <i class="fas fa-external-link-alt mr-2"></i>Live Demo
-                      </a>`
-                    : ''
-                }
-              </div>
-            </div>
-          `
-            )
-            .join('');
-        } catch (error) {
-          console.error('Error fetching GitHub data:', error);
-        }
-      }
 
       // Call the function when the page loads
       window.addEventListener('load', fetchGitHubData);
