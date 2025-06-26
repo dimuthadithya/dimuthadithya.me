@@ -7,6 +7,35 @@ const https = require('https');
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN; // Add your token as an environment variable
 const username = 'dimuthadithya';
 
+// Function to extract and convert image URLs from markdown content
+function extractImagesFromMarkdown(markdown, repo) {
+  if (!markdown) return [];
+  const imageRegex = /!\[.*?\]\((.*?)\)/g;
+  const matches = [...markdown.matchAll(imageRegex)];
+
+  return matches
+    .map((match) => {
+      let url = match[1];
+      // Check if it's a relative path
+      if (!url.startsWith('http')) {
+        // Convert relative path to raw GitHub URL
+        url = `https://raw.githubusercontent.com/${username}/${repo.name}/${
+          repo.default_branch
+        }/${url.replace(/^\//, '')}`;
+      } else if (
+        url.includes('github.com') &&
+        !url.includes('raw.githubusercontent.com')
+      ) {
+        // Convert GitHub blob URLs to raw URLs
+        url = url
+          .replace('github.com', 'raw.githubusercontent.com')
+          .replace('/blob/', '/');
+      }
+      return url;
+    })
+    .filter((url) => url);
+}
+
 async function fetchGitHubData() {
   const options = GITHUB_TOKEN
     ? {
@@ -30,11 +59,32 @@ async function fetchGitHubData() {
       options
     );
 
-    // Fetch languages for each repo
-    const reposWithLanguages = await Promise.all(
+    // Fetch languages and README for each repo
+    const reposWithDetails = await Promise.all(
       repos.map(async (repo) => {
         const languages = await fetchJson(repo.languages_url, options);
-        return { ...repo, languages };
+
+        // Fetch README content
+        let readmeImages = [];
+        try {
+          const readmeResponse = await fetchJson(
+            `https://api.github.com/repos/${username}/${repo.name}/readme`,
+            options
+          );
+          const readmeContent = Buffer.from(
+            readmeResponse.content,
+            'base64'
+          ).toString();
+          readmeImages = extractImagesFromMarkdown(readmeContent, repo);
+        } catch (error) {
+          console.log(`No README found for ${repo.name}`);
+        }
+
+        return {
+          ...repo,
+          languages,
+          cardImage: readmeImages[0] || null // Use the first image as card image
+        };
       })
     );
 
@@ -48,7 +98,7 @@ async function fetchGitHubData() {
     // Prepare final data object
     const githubData = {
       profile: userData,
-      repos: reposWithLanguages,
+      repos: reposWithDetails,
       stats: {
         totalStars,
         totalForks,

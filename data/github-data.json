@@ -137,7 +137,8 @@
       "default_branch": "master",
       "languages": {
         "HTML": 2574
-      }
+      },
+      "cardImage": "https://img.shields.io/github/stars/themlphdstudent/awesome-github-profile-readme-templates.svg"
     },
     {
       "id": 982028258,
@@ -249,7 +250,8 @@
         "JavaScript": 19706,
         "CSS": 9982,
         "Hack": 2792
-      }
+      },
+      "cardImage": null
     },
     {
       "id": 1003644791,
@@ -361,7 +363,8 @@
         "CSS": 39218,
         "JavaScript": 7473,
         "Hack": 1101
-      }
+      },
+      "cardImage": null
     },
     {
       "id": 923932864,
@@ -467,7 +470,8 @@
         "HTML": 49071,
         "CSS": 17622,
         "JavaScript": 7390
-      }
+      },
+      "cardImage": null
     },
     {
       "id": 935565824,
@@ -575,7 +579,8 @@
         "HTML": 3767,
         "SCSS": 2888,
         "Shell": 437
-      }
+      },
+      "cardImage": null
     },
     {
       "id": 838293738,
@@ -677,7 +682,8 @@
       "open_issues": 0,
       "watchers": 0,
       "default_branch": "main",
-      "languages": {}
+      "languages": {},
+      "cardImage": null
     },
     {
       "id": 1009094529,
@@ -747,14 +753,14 @@
       "releases_url": "https://api.github.com/repos/dimuthadithya/dimuthadithya.me/releases{/id}",
       "deployments_url": "https://api.github.com/repos/dimuthadithya/dimuthadithya.me/deployments",
       "created_at": "2025-06-26T15:08:15Z",
-      "updated_at": "2025-06-26T16:15:21Z",
-      "pushed_at": "2025-06-26T16:28:52Z",
+      "updated_at": "2025-06-26T16:52:17Z",
+      "pushed_at": "2025-06-26T16:52:49Z",
       "git_url": "git://github.com/dimuthadithya/dimuthadithya.me.git",
       "ssh_url": "git@github.com:dimuthadithya/dimuthadithya.me.git",
       "clone_url": "https://github.com/dimuthadithya/dimuthadithya.me.git",
       "svn_url": "https://github.com/dimuthadithya/dimuthadithya.me",
       "homepage": null,
-      "size": 361,
+      "size": 412,
       "stargazers_count": 0,
       "watchers_count": 0,
       "language": "HTML",
@@ -780,8 +786,10 @@
       "watchers": 0,
       "default_branch": "main",
       "languages": {
-        "HTML": 35063
-      }
+        "HTML": 35554,
+        "JavaScript": 2270
+      },
+      "cardImage": null
     },
     {
       "id": 838289618,
@@ -896,7 +904,8 @@
         "CSS": 6039,
         "JavaScript": 3935,
         "Hack": 2426
-      }
+      },
+      "cardImage": "https://raw.githubusercontent.com/dimuthx353/expenova/master/img/Screenshot%202024-08-05%20161156.png"
     },
     {
       "id": 728444922,
@@ -1011,7 +1020,8 @@
         "SCSS": 16707,
         "JavaScript": 16209,
         "HTML": 12200
-      }
+      },
+      "cardImage": "https://raw.githubusercontent.com/dimuthx353/ExpenseTracker/main/images/Screenshot%202024-08-05%20153703.png"
     },
     {
       "id": 925053132,
@@ -1121,7 +1131,8 @@
         "HTML": 41084,
         "SCSS": 5421,
         "CSS": 5225
-      }
+      },
+      "cardImage": null
     },
     {
       "id": 972543902,
@@ -1223,7 +1234,8 @@
       "open_issues": 0,
       "watchers": 0,
       "default_branch": "main",
-      "languages": {}
+      "languages": {},
+      "cardImage": null
     },
     {
       "id": 1004302090,
@@ -1337,7 +1349,8 @@
         "PHP": 113880,
         "CSS": 24032,
         "JavaScript": 993
-      }
+      },
+      "cardImage": "https://raw.githubusercontent.com/dimuthadithya/flixio/main/public/assets/images/readme/home.png"
     },
     {
       "id": 838284516,
@@ -1450,7 +1463,8 @@
         "CSS": 7458,
         "Hack": 4478,
         "JavaScript": 1267
-      }
+      },
+      "cardImage": "https://raw.githubusercontent.com/dimuthx353/foodTime/master/images/Screenshot%202024-08-05%20155350.png"
     },
     {
       "id": 937229713,
@@ -1561,7 +1575,8 @@
         "HTML": 23931,
         "CSS": 4826,
         "SCSS": 3293
-      }
+      },
+      "cardImage": null
     },
     {
       "id": 999396790,
@@ -1667,7 +1682,8 @@
         "PHP": 115420,
         "CSS": 20543,
         "Hack": 4288
-      }
+      },
+      "cardImage": null
     },
     {
       "id": 1002616314,
@@ -1780,7 +1796,8 @@
         "PHP": 138301,
         "CSS": 23014,
         "JavaScript": 6130
-      }
+      },
+      "cardImage": "https://raw.githubusercontent.com/dimuthadithya/greenGrowCompost/main/public/assets/images/readme/home.png"
     },
     {
       "id": 995021895,
@@ -1894,7 +1911,8 @@
         "Blade": 202089,
         "PHP": 138711,
         "CSS": 24496
-      }
+      },
+      "cardImage": null
     },
     {
       "id": 992171410,
@@ -2006,7 +2024,8 @@
         "CSS": 58858,
         "JavaScript": 58197,
         "Batchfile": 184
-      }
+      },
+      "cardImage": "https://raw.githubusercontent.com/dimuthadithya/hotel-reservation/main/assets/img/readme/home.png"
     },
     {
       "id": 722225181,
@@ -2115,9 +2134,12 @@
       "watchers": 0,
       "default_branch": "main",
       "languages": {
-        "message": "API rate limit exceeded for 111.223.178.178. (But here's the good news: Authenticated requests get a higher rate limit. Check out the documentation for more details.)",
-        "documentation_url": "https://docs.github.com/rest/overview/resources-in-the-rest-api#rate-limiting"
-      }
+        "SCSS": 31423,
+        "CSS": 30564,
+        "HTML": 25362,
+        "JavaScript": 2788
+      },
+      "cardImage": null
     },
     {
       "id": 963474953,
@@ -2224,9 +2246,12 @@
       "watchers": 0,
       "default_branch": "main",
       "languages": {
-        "message": "API rate limit exceeded for 111.223.178.178. (But here's the good news: Authenticated requests get a higher rate limit. Check out the documentation for more details.)",
-        "documentation_url": "https://docs.github.com/rest/overview/resources-in-the-rest-api#rate-limiting"
-      }
+        "HTML": 20625,
+        "JavaScript": 5041,
+        "SCSS": 980,
+        "CSS": 375
+      },
+      "cardImage": null
     },
     {
       "id": 963500102,
@@ -2335,7 +2360,8 @@
       "languages": {
         "HTML": 2069,
         "JavaScript": 1473
-      }
+      },
+      "cardImage": null
     },
     {
       "id": 979450398,
@@ -2444,9 +2470,12 @@
       "watchers": 0,
       "default_branch": "main",
       "languages": {
-        "message": "API rate limit exceeded for 111.223.178.178. (But here's the good news: Authenticated requests get a higher rate limit. Check out the documentation for more details.)",
-        "documentation_url": "https://docs.github.com/rest/overview/resources-in-the-rest-api#rate-limiting"
-      }
+        "PHP": 363126,
+        "CSS": 35594,
+        "Hack": 17613,
+        "JavaScript": 12390
+      },
+      "cardImage": null
     },
     {
       "id": 877234980,
@@ -2559,7 +2588,8 @@
         "JavaScript": 1677,
         "CSS": 452,
         "SCSS": 394
-      }
+      },
+      "cardImage": null
     },
     {
       "id": 837963516,
@@ -2670,7 +2700,8 @@
         "JavaScript": 48407,
         "HTML": 23898,
         "CSS": 18395
-      }
+      },
+      "cardImage": null
     },
     {
       "id": 996888426,
@@ -2783,9 +2814,13 @@
       "watchers": 0,
       "default_branch": "master",
       "languages": {
-        "message": "API rate limit exceeded for 111.223.178.178. (But here's the good news: Authenticated requests get a higher rate limit. Check out the documentation for more details.)",
-        "documentation_url": "https://docs.github.com/rest/overview/resources-in-the-rest-api#rate-limiting"
-      }
+        "Blade": 253319,
+        "HTML": 177725,
+        "PHP": 142806,
+        "CSS": 69552,
+        "JavaScript": 36943
+      },
+      "cardImage": "https://raw.githubusercontent.com/dimuthadithya/salonJC/master/public/assets/img/readme/home.png"
     },
     {
       "id": 838218480,
@@ -2895,9 +2930,12 @@
       "watchers": 0,
       "default_branch": "master",
       "languages": {
-        "message": "API rate limit exceeded for 111.223.178.178. (But here's the good news: Authenticated requests get a higher rate limit. Check out the documentation for more details.)",
-        "documentation_url": "https://docs.github.com/rest/overview/resources-in-the-rest-api#rate-limiting"
-      }
+        "HTML": 26710,
+        "JavaScript": 21199,
+        "CSS": 10722,
+        "SCSS": 9155
+      },
+      "cardImage": null
     },
     {
       "id": 899348226,
@@ -3004,7 +3042,8 @@
         "HTML": 25646,
         "SCSS": 3067,
         "JavaScript": 1217
-      }
+      },
+      "cardImage": null
     },
     {
       "id": 935458636,
@@ -3114,7 +3153,8 @@
         "HTML": 8590,
         "CSS": 4925,
         "SCSS": 4189
-      }
+      },
+      "cardImage": null
     },
     {
       "id": 987951399,
@@ -3223,9 +3263,12 @@
       "watchers": 0,
       "default_branch": "main",
       "languages": {
-        "message": "API rate limit exceeded for 111.223.178.178. (But here's the good news: Authenticated requests get a higher rate limit. Check out the documentation for more details.)",
-        "documentation_url": "https://docs.github.com/rest/overview/resources-in-the-rest-api#rate-limiting"
-      }
+        "Blade": 418676,
+        "PHP": 199277,
+        "CSS": 63941,
+        "JavaScript": 993
+      },
+      "cardImage": "https://raw.githubusercontent.com/dimuthadithya/TailorShop/main/public/assets/img/readme/home.png"
     },
     {
       "id": 943466947,
@@ -3338,9 +3381,12 @@
       "watchers": 0,
       "default_branch": "main",
       "languages": {
-        "message": "API rate limit exceeded for 111.223.178.178. (But here's the good news: Authenticated requests get a higher rate limit. Check out the documentation for more details.)",
-        "documentation_url": "https://docs.github.com/rest/overview/resources-in-the-rest-api#rate-limiting"
-      }
+        "CSS": 315866,
+        "PHP": 204922,
+        "Blade": 195172,
+        "JavaScript": 38209
+      },
+      "cardImage": null
     },
     {
       "id": 839683551,
@@ -3450,9 +3496,13 @@
       "watchers": 0,
       "default_branch": "master",
       "languages": {
-        "message": "API rate limit exceeded for 111.223.178.178. (But here's the good news: Authenticated requests get a higher rate limit. Check out the documentation for more details.)",
-        "documentation_url": "https://docs.github.com/rest/overview/resources-in-the-rest-api#rate-limiting"
-      }
+        "JavaScript": 332092,
+        "SCSS": 223866,
+        "CSS": 215049,
+        "HTML": 84278,
+        "PHP": 948
+      },
+      "cardImage": "https://raw.githubusercontent.com/dimuthx353/webXpert/master/img/Screenshot%202024-08-09%20183903.png"
     },
     {
       "id": 856315123,
@@ -3572,13 +3622,14 @@
         "JavaScript": 20797,
         "SCSS": 12283,
         "Hack": 308
-      }
+      },
+      "cardImage": "https://raw.githubusercontent.com/dimuthadithya/zulo/main/./assets/img/screenshots/home.png"
     }
   ],
   "stats": {
     "totalStars": 0,
     "totalForks": 0,
     "totalRepos": 32,
-    "updatedAt": "2025-06-26T16:48:48.037Z"
+    "updatedAt": "2025-06-26T17:36:35.208Z"
   }
 }

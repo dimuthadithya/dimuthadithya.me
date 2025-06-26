@@ -266,6 +266,7 @@
         >
           <!-- GitHub projects will be loaded here -->
           <div class="card rounded-xl p-6 animate-pulse">
+            <div class="h-48 bg-purple-500/10 rounded-lg mb-4"></div>
             <div class="h-8 bg-purple-500/20 rounded w-3/4 mb-4"></div>
             <div class="h-20 bg-purple-500/10 rounded mb-4"></div>
             <div class="flex gap-3 mb-6">
@@ -568,12 +569,13 @@
       </div>
     </section>
 
-    <div
+    <button
       id="go-to-top"
-      class="flex items-center justify-center w-12 h-12 rounded-full shadow-lg"
+      onclick="window.scrollTo({ top: 0, behavior: 'smooth' })"
+      aria-label="Go to top"
     >
-      <i class="fas fa-arrow-up text-2xl"></i>
-    </div>
+      <i class="fas fa-arrow-up"></i>
+    </button>
 
     <script
       src="https://platform.linkedin.com/badges/js/profile.js"
@@ -938,12 +940,140 @@
           .join('');
       }
 
-      // Initialize project search
-      document
-        .getElementById('project-search')
-        ?.addEventListener('input', (e) => {
-          filterProjects(e.target.value.trim());
+      // Load GitHub data
+      async function loadGitHubData() {
+        try {
+          const response = await fetch('./data/github-data.json');
+          return await response.json();
+        } catch (error) {
+          console.error('Error loading GitHub data:', error);
+          return null;
+        }
+      }
+
+      // Render GitHub projects
+      function renderProjects(projects, filter = 'all') {
+        const container = document.getElementById('github-projects');
+        container.innerHTML = '';
+
+        const filteredProjects = projects.filter((project) => {
+          if (filter === 'all') return true;
+          return project.topics && project.topics.includes(filter);
         });
+
+        filteredProjects.forEach((project) => {
+          const card = document.createElement('div');
+          card.className = 'card rounded-xl p-6 hover:shadow-lg';
+
+          const imageHtml = project.cardImage
+            ? `<div class="relative h-48 mb-4 rounded-lg overflow-hidden">
+                 <img src="${project.cardImage}" alt="${project.name}" class="w-full h-full object-cover">
+               </div>`
+            : `<div class="h-48 mb-4 rounded-lg bg-gradient-to-br from-purple-500/20 to-indigo-500/20 flex items-center justify-center">
+                 <i class="fas fa-code text-4xl text-purple-500/50"></i>
+               </div>`;
+
+          card.innerHTML = `
+            ${imageHtml}
+            <h3 class="text-xl font-bold mb-2">${project.name}</h3>
+            <p class="text-gray-300 mb-4 line-clamp-3">${
+              project.description || ''
+            }</p>
+            <div class="flex flex-wrap gap-2 mb-4">
+              ${(project.topics || [])
+                .map(
+                  (topic) =>
+                    `<span class="px-2 py-1 text-xs rounded-full bg-purple-500/20 text-purple-300">
+                   ${topic}
+                 </span>`
+                )
+                .join('')}
+            </div>
+            <div class="flex items-center justify-between text-sm text-gray-400">
+              <div class="flex items-center space-x-4">
+                <span><i class="fas fa-star mr-1"></i>${
+                  project.stargazers_count
+                }</span>
+                <span><i class="fas fa-code-fork mr-1"></i>${
+                  project.forks_count
+                }</span>
+              </div>
+              <a href="${
+                project.html_url
+              }" target="_blank" rel="noopener noreferrer" 
+                 class="text-purple-400 hover:text-purple-300">
+                <i class="fas fa-external-link-alt"></i>
+              </a>
+            </div>
+          `;
+
+          container.appendChild(card);
+        });
+      }
+
+      // Initialize projects
+      async function initializeProjects() {
+        const data = await loadGitHubData();
+        if (!data) return;
+
+        const projects = data.repos;
+        const topics = [
+          ...new Set(projects.flatMap((project) => project.topics || []))
+        ];
+
+        // Initialize topic filters
+        const topicFilters = document.getElementById('topic-filters');
+        topics.forEach((topic) => {
+          const count = projects.filter(
+            (p) => p.topics && p.topics.includes(topic)
+          ).length;
+          const button = document.createElement('button');
+          button.className =
+            'px-4 py-2 rounded-lg bg-purple-500/20 text-white hover:bg-purple-500/30 transition-colors';
+          button.setAttribute('data-topic', topic);
+          button.innerHTML = `
+            ${topic}
+            <span class="ml-2 text-xs bg-purple-500/30 px-2 py-1 rounded-full count">${count}</span>
+          `;
+          button.onclick = () => {
+            document
+              .querySelectorAll('#topic-filters button')
+              .forEach((btn) => btn.classList.remove('bg-purple-500'));
+            button.classList.add('bg-purple-500');
+            renderProjects(projects, topic);
+          };
+          topicFilters.appendChild(button);
+        });
+
+        // Update "All Topics" count
+        const allTopicsCount = document.querySelector(
+          '[data-topic="all"] .count'
+        );
+        allTopicsCount.textContent = projects.length;
+
+        // Initialize search
+        const searchInput = document.getElementById('project-search');
+        searchInput.addEventListener('input', (e) => {
+          const searchTerm = e.target.value.toLowerCase();
+          const filteredProjects = projects.filter(
+            (project) =>
+              project.name.toLowerCase().includes(searchTerm) ||
+              (project.description &&
+                project.description.toLowerCase().includes(searchTerm)) ||
+              (project.topics &&
+                project.topics.some((topic) =>
+                  topic.toLowerCase().includes(searchTerm)
+                ))
+          );
+          renderProjects(filteredProjects);
+        });
+
+        // Initial render
+        renderProjects(projects);
+      }
+
+      // Wait for DOM to load
+      document.addEventListener('DOMContentLoaded', initializeProjects);
 
       // Go to top button functionality
       const goToTopButton = document.getElementById('go-to-top');
@@ -955,14 +1085,6 @@
         } else {
           goToTopButton.classList.remove('visible');
         }
-      });
-
-      // Scroll to top when button is clicked
-      goToTopButton.addEventListener('click', () => {
-        window.scrollTo({
-          top: 0,
-          behavior: 'smooth'
-        });
       });
     </script>
   </body>
