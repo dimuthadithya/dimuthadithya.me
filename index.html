@@ -465,40 +465,68 @@
     </section>
 
     <!-- Contact Section -->
-    <section id="contact" class="py-24 relative">
+    <section id="contact" class="py-24 relative bg-gray-900 text-white">
       <div class="glow bottom-0 right-0"></div>
-      <div class="container mx-auto px-6 text-center max-w-5xl">
-        <h2 class="text-3xl font-bold mb-8">Contact</h2>
-        <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto mb-12">
-          <div class="card rounded-xl p-6">
+      <div class="container mx-auto px-6 text-center max-w-6xl">
+        <h2 class="text-4xl font-bold mb-12">Contact</h2>
+
+        <!-- Contact Info Grid -->
+        <div
+          class="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto mb-16 items-start"
+        >
+          <!-- Contact Information -->
+          <div class="card rounded-xl p-6 text-left">
             <h3 class="text-xl font-bold mb-6 gradient-text">
               Contact Information
             </h3>
             <div class="space-y-4">
-              <div class="flex items-center justify-center md:justify-start">
+              <div class="flex items-center">
                 <i class="fas fa-phone-alt text-purple-500 mr-3"></i>
                 <a
                   href="tel:+94713969520"
                   class="hover:text-purple-500 transition-colors"
-                  >+94 713 969 520</a
                 >
+                  +94 713 969 520
+                </a>
               </div>
-              <div class="flex items-center justify-center md:justify-start">
+              <div class="flex items-center">
                 <i class="fas fa-envelope text-purple-500 mr-3"></i>
                 <a
                   href="mailto:dimuthadithya01@gmail.com"
                   class="hover:text-purple-500 transition-colors"
-                  >dimuthadithya01@gmail.com</a
                 >
+                  dimuthadithya01@gmail.com
+                </a>
               </div>
-              <div class="flex items-center justify-center md:justify-start">
+              <div class="flex items-center">
                 <i class="fas fa-map-marker-alt text-purple-500 mr-3"></i>
                 <span>Kegalle, Sri Lanka</span>
               </div>
             </div>
           </div>
 
-          <div class="card rounded-xl p-6">
+          <!-- LinkedIn Badge -->
+          <div class="card rounded-xl p-6 flex justify-center items-center">
+            <div
+              class="badge-base LI-profile-badge"
+              data-locale="en_US"
+              data-size="medium"
+              data-theme="dark"
+              data-type="VERTICAL"
+              data-vanity="dimuth-adithya"
+              data-version="v1"
+            >
+              <a
+                class="badge-base__link LI-simple-link"
+                href="https://lk.linkedin.com/in/dimuth-adithya?trk=profile-badge"
+              >
+                Dimuth Adithya
+              </a>
+            </div>
+          </div>
+
+          <!-- References -->
+          <div class="card rounded-xl p-6 text-left">
             <h3 class="text-xl font-bold mb-6 gradient-text">References</h3>
             <div class="space-y-6">
               <div>
@@ -510,8 +538,9 @@
                 <a
                   href="mailto:Samly@bcas.lk"
                   class="text-purple-500 hover:text-purple-400 transition-colors text-sm"
-                  >Samly@bcas.lk</a
                 >
+                  Samly@bcas.lk
+                </a>
                 <p class="text-gray-400 text-sm">0771930706</p>
               </div>
               <div>
@@ -524,46 +553,71 @@
           </div>
         </div>
 
-        <div class="flex justify-center space-x-6">
-          <a
-            href="https://github.com/dimuthadithya"
-            target="_blank"
-            class="text-white hover:text-purple-500 transition-colors"
-          >
-            <i class="fab fa-github text-2xl"></i>
-          </a>
-          <a
-            href="https://www.linkedin.com/in/dimuthadithya"
-            target="_blank"
-            class="text-white hover:text-purple-500 transition-colors"
-          >
-            <i class="fab fa-linkedin text-2xl"></i>
-          </a>
-          <a
-            href="dimuthadithya.me"
-            target="_blank"
-            class="text-white hover:text-purple-500 transition-colors"
-          >
-            <i class="fas fa-globe text-2xl"></i>
-          </a>
-        </div>
-
-        <!-- LinkedIn Badge -->
-        <div class="mt-8 flex justify-center">
-          <div
-            class="badge-base LI-profile-badge"
-            data-locale="en_US"
-            data-size="medium"
-            data-theme="dark"
-            data-type="VERTICAL"
-            data-vanity="dimuth-adithya"
-            data-version="v1"
-          >
-            <a
-              class="badge-base__link LI-simple-link"
-              href="https://lk.linkedin.com/in/dimuth-adithya?trk=profile-badge"
-              >Dimuth Adithya</a
-            >
+        <!-- Contact Form -->
+        <div class="mt-16 max-w-3xl mx-auto">
+          <div class="card rounded-xl p-6 text-left">
+            <h3 class="text-xl font-bold mb-6 gradient-text">
+              Send Me a Message
+            </h3>
+            <form id="contact-form" class="space-y-4">
+              <div class="grid md:grid-cols-2 gap-4">
+                <div>
+                  <label for="name" class="block text-sm mb-1">Name</label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    required
+                    class="w-full px-4 py-2 rounded-lg bg-purple-500/10 border border-purple-500/20 text-white placeholder-purple-300 focus:outline-none focus:border-purple-500/50"
+                    placeholder="Your name"
+                  />
+                </div>
+                <div>
+                  <label for="email" class="block text-sm mb-1">Email</label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    required
+                    class="w-full px-4 py-2 rounded-lg bg-purple-500/10 border border-purple-500/20 text-white placeholder-purple-300 focus:outline-none focus:border-purple-500/50"
+                    placeholder="Your email"
+                  />
+                </div>
+              </div>
+              <div>
+                <label for="subject" class="block text-sm mb-1">Subject</label>
+                <input
+                  type="text"
+                  id="subject"
+                  name="subject"
+                  required
+                  class="w-full px-4 py-2 rounded-lg bg-purple-500/10 border border-purple-500/20 text-white placeholder-purple-300 focus:outline-none focus:border-purple-500/50"
+                  placeholder="Message subject"
+                />
+              </div>
+              <div>
+                <label for="message" class="block text-sm mb-1">Message</label>
+                <textarea
+                  id="message"
+                  name="message"
+                  required
+                  rows="4"
+                  class="w-full px-4 py-2 rounded-lg bg-purple-500/10 border border-purple-500/20 text-white placeholder-purple-300 focus:outline-none focus:border-purple-500/50 resize-none"
+                  placeholder="Your message"
+                ></textarea>
+              </div>
+              <div>
+                <button
+                  type="submit"
+                  class="w-full px-6 py-3 rounded-lg bg-purple-500 text-white hover:bg-purple-600 transition-colors group"
+                >
+                  <i
+                    class="fas fa-paper-plane mr-2 group-hover:translate-x-1 transition-transform"
+                  ></i>
+                  Send Message
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
@@ -1108,6 +1162,40 @@
           goToTopButton.classList.remove('visible');
         }
       });
+
+      // Contact Form Handling
+      document
+        .getElementById('contact-form')
+        .addEventListener('submit', function (e) {
+          e.preventDefault();
+
+          // Get form data
+          const formData = {
+            name: document.getElementById('name').value,
+            email: document.getElementById('email').value,
+            subject: document.getElementById('subject').value,
+            message: document.getElementById('message').value
+          };
+
+          // You can handle the form submission here
+          // For now, we'll just log the data and show a success message
+          console.log('Form submitted:', formData);
+
+          // Show success message
+          const button = e.target.querySelector('button[type="submit"]');
+          const originalText = button.innerHTML;
+          button.innerHTML = '<i class="fas fa-check mr-2"></i>Message Sent!';
+          button.disabled = true;
+          button.classList.add('bg-green-500', 'hover:bg-green-600');
+
+          // Reset form and button after 3 seconds
+          setTimeout(() => {
+            e.target.reset();
+            button.innerHTML = originalText;
+            button.disabled = false;
+            button.classList.remove('bg-green-500', 'hover:bg-green-600');
+          }, 3000);
+        });
     </script>
   </body>
 </html>
