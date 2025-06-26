@@ -944,6 +944,26 @@
         ?.addEventListener('input', (e) => {
           filterProjects(e.target.value.trim());
         });
+
+      // Go to top button functionality
+      const goToTopButton = document.getElementById('go-to-top');
+
+      // Show button when scrolling down 400px
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 400) {
+          goToTopButton.classList.add('visible');
+        } else {
+          goToTopButton.classList.remove('visible');
+        }
+      });
+
+      // Scroll to top when button is clicked
+      goToTopButton.addEventListener('click', () => {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      });
     </script>
   </body>
 </html>
