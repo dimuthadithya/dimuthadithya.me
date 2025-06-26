@@ -654,7 +654,7 @@
           const topics = collectTopics(allProjects);
           updateTopicFilters(topics);
           updateTopicCounts(allProjects);
-          displayProjects(allProjects);
+          await renderProjects(allProjects);
         } catch (error) {
           console.error('Error loading GitHub data:', error);
           document.getElementById('github-projects').innerHTML = `
@@ -804,7 +804,7 @@
         });
       }
 
-      function filterProjects(searchTerm) {
+      async function filterProjects(searchTerm) {
         currentSearchTerm = searchTerm;
 
         let filteredProjects = allProjects;
@@ -836,10 +836,11 @@
           );
         }
 
-        displayProjects(filteredProjects);
+        await renderProjects(filteredProjects);
       }
 
-      function displayProjects(projects) {
+      // Remove this entire displayProjects function as we're using renderProjects instead
+      function oldDisplayProjects(projects) {
         const projectsContainer = document.getElementById('github-projects');
 
         if (projects.length === 0) {
@@ -951,8 +952,26 @@
         }
       }
 
+      // Function to handle image loading errors and provide fallback
+      function handleImageError(img, projectName) {
+        img.onerror = null; // Prevent infinite loop
+        img.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(
+          projectName
+        )}&background=6d28d9&color=ffffff&size=200`;
+      }
+
+      // Function to preload and validate image
+      function preloadImage(url) {
+        return new Promise((resolve, reject) => {
+          const img = new Image();
+          img.onload = () => resolve(url);
+          img.onerror = () => reject();
+          img.src = url;
+        });
+      }
+
       // Render GitHub projects
-      function renderProjects(projects, filter = 'all') {
+      async function renderProjects(projects, filter = 'all') {
         const container = document.getElementById('github-projects');
         container.innerHTML = '';
 
@@ -961,20 +980,46 @@
           return project.topics && project.topics.includes(filter);
         });
 
+        // Create and append all cards first
         filteredProjects.forEach((project) => {
           const card = document.createElement('div');
           card.className = 'card rounded-xl p-6 hover:shadow-lg';
 
-          const imageHtml = project.cardImage
-            ? `<div class="relative h-48 mb-4 rounded-lg overflow-hidden">
-                 <img src="${project.cardImage}" alt="${project.name}" class="w-full h-full object-cover">
-               </div>`
-            : `<div class="h-48 mb-4 rounded-lg bg-gradient-to-br from-purple-500/20 to-indigo-500/20 flex items-center justify-center">
-                 <i class="fas fa-code text-4xl text-purple-500/50"></i>
-               </div>`;
+          const imageContainer = document.createElement('div');
+          imageContainer.className =
+            'relative h-48 mb-4 rounded-lg overflow-hidden bg-purple-500/20';
+
+          if (project.cardImage) {
+            const img = document.createElement('img');
+            img.className = 'w-full h-full object-cover';
+            img.alt = project.name;
+            img.style.opacity = '0';
+            img.style.transition = 'opacity 0.3s ease-in-out';
+
+            // Set up image loading
+            preloadImage(project.cardImage)
+              .then(() => {
+                img.src = project.cardImage;
+                img.onload = () => {
+                  img.style.opacity = '1';
+                };
+              })
+              .catch(() => {
+                handleImageError(img, project.name);
+                img.style.opacity = '1';
+              });
+
+            imageContainer.appendChild(img);
+          } else {
+            imageContainer.innerHTML = `
+              <div class="h-full w-full flex items-center justify-center">
+                <i class="fas fa-code text-4xl text-purple-500/50"></i>
+              </div>
+            `;
+          }
 
           card.innerHTML = `
-            ${imageHtml}
+            ${imageContainer.outerHTML}
             <h3 class="text-xl font-bold mb-2">${project.name}</h3>
             <p class="text-gray-300 mb-4 line-clamp-3">${
               project.description || ''
@@ -984,8 +1029,8 @@
                 .map(
                   (topic) =>
                     `<span class="px-2 py-1 text-xs rounded-full bg-purple-500/20 text-purple-300">
-                   ${topic}
-                 </span>`
+                    ${topic}
+                   </span>`
                 )
                 .join('')}
             </div>
@@ -1054,22 +1099,11 @@
         // Initialize search
         const searchInput = document.getElementById('project-search');
         searchInput.addEventListener('input', (e) => {
-          const searchTerm = e.target.value.toLowerCase();
-          const filteredProjects = projects.filter(
-            (project) =>
-              project.name.toLowerCase().includes(searchTerm) ||
-              (project.description &&
-                project.description.toLowerCase().includes(searchTerm)) ||
-              (project.topics &&
-                project.topics.some((topic) =>
-                  topic.toLowerCase().includes(searchTerm)
-                ))
-          );
-          renderProjects(filteredProjects);
+          filterProjects(e.target.value);
         });
 
         // Initial render
-        renderProjects(projects);
+        await renderProjects(projects);
       }
 
       // Wait for DOM to load
