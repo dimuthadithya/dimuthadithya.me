@@ -229,10 +229,23 @@
     <!-- Projects Section -->
     <section id="projects" class="py-24 relative">
       <div class="container mx-auto px-6 max-w-5xl">
-        <h2 class="text-3xl font-bold mb-12">Featured Projects</h2>
+        <h2 class="text-3xl font-bold mb-12">All Projects</h2>
+        <div class="mb-8 flex justify-center">
+          <div class="relative">
+            <input
+              type="text"
+              id="project-search"
+              placeholder="Search projects..."
+              class="w-full md:w-96 px-4 py-2 rounded-lg bg-purple-500/10 border border-purple-500/20 text-white placeholder-purple-300 focus:outline-none focus:border-purple-500/50"
+            />
+            <i
+              class="fas fa-search absolute right-3 top-1/2 transform -translate-y-1/2 text-purple-500"
+            ></i>
+          </div>
+        </div>
         <div
           id="github-projects"
-          class="grid grid-cols-1 md:grid-cols-2 gap-12"
+          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8"
         >
           <!-- GitHub projects will be loaded here -->
           <div class="card rounded-xl p-6 animate-pulse">
@@ -588,11 +601,10 @@
           );
           const allReposData = await allReposResponse.json();
 
-          // Fetch recent repositories for display
-          const recentReposResponse = await fetch(
-            `https://api.github.com/users/${username}/repos?sort=updated&per_page=4`
+          // Use allReposData for displaying all repositories
+          const reposData = allReposData.sort(
+            (a, b) => new Date(b.updated_at) - new Date(a.updated_at)
           );
-          const reposData = await recentReposResponse.json();
 
           // Calculate total stars
           const totalStars = allReposData.reduce(
@@ -642,6 +654,10 @@
               </div>
             `;
           }
+
+          // Store all projects globally
+          allProjects = reposData;
+          displayProjects(allProjects);
 
           // Update projects section
           const projectsContainer = document.getElementById('github-projects');
@@ -753,28 +769,139 @@
       // Show subtitle (replacing GSAP animation with simple CSS)
       document.getElementById('subtitle').style.opacity = 1;
 
-      // Go to Top Button Functionality
-      const goToTopButton = document.createElement('button');
-      goToTopButton.id = 'go-to-top';
-      goToTopButton.innerHTML = '<i class="fas fa-arrow-up"></i>';
-      document.body.appendChild(goToTopButton);
+      // Project search functionality
+      let allProjects = [];
 
-      // Show/hide Go to Top button based on scroll position
-      window.addEventListener('scroll', () => {
-        if (window.pageYOffset > 300) {
-          goToTopButton.classList.add('visible');
-        } else {
-          goToTopButton.classList.remove('visible');
+      function filterProjects(searchTerm) {
+        const filteredProjects = searchTerm
+          ? allProjects.filter(
+              (project) =>
+                project.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                (project.description &&
+                  project.description
+                    .toLowerCase()
+                    .includes(searchTerm.toLowerCase())) ||
+                (project.language &&
+                  project.language
+                    .toLowerCase()
+                    .includes(searchTerm.toLowerCase())) ||
+                (project.topics &&
+                  project.topics.some((topic) =>
+                    topic.toLowerCase().includes(searchTerm.toLowerCase())
+                  ))
+            )
+          : allProjects;
+
+        displayProjects(filteredProjects);
+      }
+
+      function displayProjects(projects) {
+        const projectsContainer = document.getElementById('github-projects');
+
+        if (projects.length === 0) {
+          projectsContainer.innerHTML = `
+            <div class="col-span-full text-center py-12">
+              <i class="fas fa-folder-open text-4xl text-purple-500 mb-4"></i>
+              <p class="text-gray-400">No projects found matching your search.</p>
+            </div>
+          `;
+          return;
         }
-      });
 
-      // Scroll to top when button is clicked
-      goToTopButton.addEventListener('click', () => {
-        window.scrollTo({
-          top: 0,
-          behavior: 'smooth'
+        projectsContainer.innerHTML = projects
+          .map(
+            (repo) => `
+          <div class="card rounded-xl p-6 group">
+            <div class="flex items-center justify-between mb-4">
+              <div class="flex items-center">
+                <i class="fas fa-folder text-purple-500 text-2xl mr-3 group-hover:rotate-[-15deg] transition-transform"></i>
+                <h3 class="text-xl font-bold">${repo.name}</h3>
+              </div>
+              ${
+                repo.private
+                  ? '<span class="px-2 py-1 rounded bg-purple-500/20 text-purple-500 text-xs">Private</span>'
+                  : ''
+              }
+            </div>
+            <p class="text-gray-400 mb-4 line-clamp-2">${
+              repo.description || 'No description available'
+            }</p>
+            <div class="flex gap-3 mb-6 flex-wrap">
+              ${
+                repo.language
+                  ? `<span class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-500 text-sm flex items-center">
+                  <i class="fas fa-code mr-1"></i>${repo.language}
+                </span>`
+                  : ''
+              }
+              <span class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-500 text-sm flex items-center">
+                <i class="fas fa-star mr-1"></i>${repo.stargazers_count} stars
+              </span>
+              <span class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-500 text-sm flex items-center">
+                <i class="fas fa-code-branch mr-1"></i>${repo.forks_count} forks
+              </span>
+              <span class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-500 text-sm flex items-center">
+                <i class="fas fa-eye mr-1"></i>${repo.watchers_count} watchers
+              </span>
+            </div>
+            <div class="flex gap-3 mb-6 flex-wrap">
+              <span class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-500 text-sm flex items-center">
+                <i class="far fa-calendar-alt mr-1"></i>Created: ${new Date(
+                  repo.created_at
+                ).toLocaleDateString()}
+              </span>
+              <span class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-500 text-sm flex items-center">
+                <i class="fas fa-sync-alt mr-1"></i>Updated: ${new Date(
+                  repo.updated_at
+                ).toLocaleDateString()}
+              </span>
+              ${
+                repo.homepage
+                  ? `<span class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-500 text-sm flex items-center">
+                  <i class="fas fa-globe mr-1"></i>Has Demo
+                </span>`
+                  : ''
+              }
+            </div>
+            ${
+              repo.topics && repo.topics.length
+                ? `<div class="flex gap-2 flex-wrap mb-6">
+                ${repo.topics
+                  .map(
+                    (topic) =>
+                      `<span class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-500 text-sm">#${topic}</span>`
+                  )
+                  .join('')}
+              </div>`
+                : ''
+            }
+            <div class="flex gap-3">
+              <a href="${repo.html_url}" target="_blank" 
+                 class="inline-flex items-center px-4 py-2 rounded-lg bg-purple-500/20 text-purple-500 hover:bg-purple-500/30 transition-colors">
+                <i class="fab fa-github mr-2"></i>View Source
+                <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+              </a>
+              ${
+                repo.homepage
+                  ? `<a href="${repo.homepage}" target="_blank" 
+                   class="inline-flex items-center px-4 py-2 rounded-lg bg-purple-500/20 text-purple-500 hover:bg-purple-500/30 transition-colors">
+                  <i class="fas fa-external-link-alt mr-2"></i>Live Demo
+                </a>`
+                  : ''
+              }
+            </div>
+          </div>
+        `
+          )
+          .join('');
+      }
+
+      // Initialize project search
+      document
+        .getElementById('project-search')
+        ?.addEventListener('input', (e) => {
+          filterProjects(e.target.value.trim());
         });
-      });
     </script>
   </body>
 </html>
