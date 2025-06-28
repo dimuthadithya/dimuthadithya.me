@@ -20,75 +20,9 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
-    <style>
-      @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
 
-      body {
-        font-family: 'Space Grotesk', sans-serif;
-        background-color: #0a051c;
-        color: white;
-      }
-
-      .gradient-text {
-        background: linear-gradient(90deg, #a855f7, #6366f1);
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent;
-      }
-
-      .card {
-        background: rgba(255, 255, 255, 0.05);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        transition: all 0.3s ease;
-      }
-
-      .card:hover {
-        transform: translateY(-5px);
-        border-color: rgba(168, 85, 247, 0.5);
-      }
-
-      .glow {
-        position: absolute;
-        width: 300px;
-        height: 300px;
-        background: radial-gradient(
-          circle,
-          rgba(168, 85, 247, 0.2) 0%,
-          rgba(99, 102, 241, 0.1) 50%,
-          transparent 70%
-        );
-        filter: blur(50px);
-        z-index: -1;
-      }
-
-      #go-to-top {
-        position: fixed;
-        bottom: 2rem;
-        right: 2rem;
-        background: rgba(168, 85, 247, 0.2);
-        border: 1px solid rgba(168, 85, 247, 0.3);
-        backdrop-filter: blur(10px);
-        padding: 0.75rem;
-        border-radius: 0.5rem;
-        color: white;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        opacity: 0;
-        visibility: hidden;
-        z-index: 50;
-      }
-
-      #go-to-top:hover {
-        background: rgba(168, 85, 247, 0.3);
-        transform: translateY(-3px);
-      }
-
-      #go-to-top.visible {
-        opacity: 1;
-        visibility: visible;
-      }
-    </style>
+    <!-- External CSS  -->
+    <link rel="stylesheet" href="./assets/css/style.min.css" />
   </head>
   <body class="min-h-screen">
     <!-- Navigation -->
