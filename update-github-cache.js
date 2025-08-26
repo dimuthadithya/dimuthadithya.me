@@ -1,8 +1,25 @@
 const fs = require('fs');
 const https = require('https');
 
-const GITHUB_TOKEN = process.env.GITHUB_TOKEN; // Add your token as env variable
+const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
 const username = 'dimuthadithya';
+
+// Function to fetch raw content directly
+function fetchRawContent(url) {
+  return new Promise((resolve, reject) => {
+    https
+      .get(url, { headers: { 'User-Agent': 'Node.js' } }, (res) => {
+        if (res.statusCode === 404) {
+          resolve(null);
+          return;
+        }
+        let data = '';
+        res.on('data', (chunk) => (data += chunk));
+        res.on('end', () => resolve(data));
+      })
+      .on('error', () => resolve(null));
+  });
+}
 
 // Extract image URLs from README
 function extractImagesFromMarkdown(markdown, repo) {
@@ -14,9 +31,9 @@ function extractImagesFromMarkdown(markdown, repo) {
     .map((match) => {
       let url = match[1];
       if (!url.startsWith('http')) {
-        url = `https://raw.githubusercontent.com/${username}/${repo.name}/${
-          repo.default_branch
-        }/${url.replace(/^\//, '')}`;
+        url = `https://raw.githubusercontent.com/${username}/${
+          repo.name
+        }/main/${url.replace(/^\//, '')}`;
       } else if (
         url.includes('github.com') &&
         !url.includes('raw.githubusercontent.com')
@@ -55,7 +72,7 @@ async function fetchGitHubData() {
         headers: {
           Authorization: `token ${GITHUB_TOKEN}`,
           'User-Agent': 'Node.js',
-          Accept: 'application/vnd.github.mercy-preview+json' // Needed for topics
+          Accept: 'application/vnd.github.mercy-preview+json'
         }
       }
     : { headers: { 'User-Agent': 'Node.js' } };
@@ -78,7 +95,7 @@ async function fetchGitHubData() {
       return;
     }
 
-    // Filter repos with "project" topic
+    // Process each repo
     const filteredRepos = await Promise.all(
       repos.map(async (repo) => {
         const topicsData = await fetchJson(
@@ -87,25 +104,31 @@ async function fetchGitHubData() {
         );
 
         if (!topicsData.names || !topicsData.names.includes('project')) {
-          return null; // skip repo
+          return null;
         }
 
         const languages = await fetchJson(repo.languages_url, options);
 
-        // Try fetching README
+        // Fetch README.md directly
+        const readmeUrl = `https://raw.githubusercontent.com/${username}/${repo.name}/main/README.md`;
+        console.log(`Trying to fetch README from: ${readmeUrl}`);
+        const readmeContent = await fetchRawContent(readmeUrl);
+
         let readmeImages = [];
-        try {
-          const readmeResponse = await fetchJson(
-            `https://api.github.com/repos/${username}/${repo.name}/readme`,
-            options
+        if (readmeContent) {
+          console.log(
+            `Found README for ${repo.name}, length: ${readmeContent.length} bytes`
           );
-          const readmeContent = Buffer.from(
-            readmeResponse.content,
-            'base64'
-          ).toString();
           readmeImages = extractImagesFromMarkdown(readmeContent, repo);
-        } catch (err) {
-          console.log(`No README for ${repo.name}`);
+          if (readmeImages.length > 0) {
+            console.log(
+              `Found ${readmeImages.length} images in README for ${repo.name}`
+            );
+          } else {
+            console.log(`No images found in README for ${repo.name}`);
+          }
+        } else {
+          console.log(`No README found for ${repo.name}`);
         }
 
         return {
@@ -119,7 +142,7 @@ async function fetchGitHubData() {
 
     const reposWithDetails = filteredRepos.filter(Boolean);
 
-    // Stats
+    // Calculate stats
     const totalStars = reposWithDetails.reduce(
       (sum, repo) => sum + repo.stargazers_count,
       0

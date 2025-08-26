@@ -217,8 +217,8 @@
       "releases_url": "https://api.github.com/repos/dimuthadithya/BeautyProducts/releases{/id}",
       "deployments_url": "https://api.github.com/repos/dimuthadithya/BeautyProducts/deployments",
       "created_at": "2025-06-17T13:03:34Z",
-      "updated_at": "2025-08-26T08:46:34Z",
-      "pushed_at": "2025-06-19T12:02:27Z",
+      "updated_at": "2025-08-26T10:11:56Z",
+      "pushed_at": "2025-08-26T10:11:53Z",
       "git_url": "git://github.com/dimuthadithya/BeautyProducts.git",
       "ssh_url": "git@github.com:dimuthadithya/BeautyProducts.git",
       "clone_url": "https://github.com/dimuthadithya/BeautyProducts.git",
@@ -261,7 +261,7 @@
         "JavaScript": 7473,
         "Hack": 1101
       },
-      "cardImage": null
+      "cardImage": "https://raw.githubusercontent.com/dimuthadithya/BeautyProducts/main/assets/images/favicon_io/image.png"
     },
     {
       "id": 838289618,
@@ -378,7 +378,7 @@
         "JavaScript": 3935,
         "Hack": 2426
       },
-      "cardImage": "https://raw.githubusercontent.com/dimuthx353/expenova/master/img/Screenshot%202024-08-05%20161156.png"
+      "cardImage": null
     },
     {
       "id": 728444922,
@@ -495,7 +495,7 @@
         "JavaScript": 16209,
         "HTML": 12200
       },
-      "cardImage": null
+      "cardImage": "https://raw.githubusercontent.com/dimuthx353/ExpenseTracker/main/images/Screenshot%202024-08-05%20153703.png"
     },
     {
       "id": 1004302090,
@@ -726,7 +726,7 @@
         "Hack": 4478,
         "JavaScript": 1267
       },
-      "cardImage": "https://raw.githubusercontent.com/dimuthx353/foodTime/master/images/Screenshot%202024-08-05%20155350.png"
+      "cardImage": null
     },
     {
       "id": 937229713,
@@ -909,8 +909,8 @@
       "releases_url": "https://api.github.com/repos/dimuthadithya/furnitureWebsite/releases{/id}",
       "deployments_url": "https://api.github.com/repos/dimuthadithya/furnitureWebsite/deployments",
       "created_at": "2025-06-10T07:31:10Z",
-      "updated_at": "2025-08-26T08:44:52Z",
-      "pushed_at": "2025-08-26T08:38:47Z",
+      "updated_at": "2025-08-26T10:08:40Z",
+      "pushed_at": "2025-08-26T10:08:37Z",
       "git_url": "git://github.com/dimuthadithya/furnitureWebsite.git",
       "ssh_url": "git@github.com:dimuthadithya/furnitureWebsite.git",
       "clone_url": "https://github.com/dimuthadithya/furnitureWebsite.git",
@@ -946,10 +946,11 @@
       "watchers": 0,
       "default_branch": "main",
       "languages": {
-        "message": "API rate limit exceeded for 175.157.46.236. (But here's the good news: Authenticated requests get a higher rate limit. Check out the documentation for more details.)",
-        "documentation_url": "https://docs.github.com/rest/overview/resources-in-the-rest-api#rate-limiting"
+        "PHP": 115420,
+        "CSS": 20543,
+        "Hack": 4288
       },
-      "cardImage": null
+      "cardImage": "https://raw.githubusercontent.com/dimuthadithya/furnitureWebsite/main/assets/img/image.png"
     },
     {
       "id": 1002616314,
@@ -1059,10 +1060,12 @@
       "watchers": 0,
       "default_branch": "main",
       "languages": {
-        "message": "API rate limit exceeded for 175.157.46.236. (But here's the good news: Authenticated requests get a higher rate limit. Check out the documentation for more details.)",
-        "documentation_url": "https://docs.github.com/rest/overview/resources-in-the-rest-api#rate-limiting"
+        "Blade": 213292,
+        "PHP": 138301,
+        "CSS": 23014,
+        "JavaScript": 6130
       },
-      "cardImage": null
+      "cardImage": "https://raw.githubusercontent.com/dimuthadithya/greenGrowCompost/main/public/assets/images/readme/home.png"
     },
     {
       "id": 995021895,
@@ -1178,7 +1181,7 @@
         "PHP": 138711,
         "CSS": 24496
       },
-      "cardImage": null
+      "cardImage": "https://raw.githubusercontent.com/dimuthadithya/helloMachan/main/resources/screenshots/home.png"
     },
     {
       "id": 992171410,
@@ -1292,7 +1295,7 @@
         "JavaScript": 58197,
         "Batchfile": 184
       },
-      "cardImage": null
+      "cardImage": "https://raw.githubusercontent.com/dimuthadithya/hotel-reservation/main/assets/img/readme/home.png"
     },
     {
       "id": 722225181,
@@ -1407,7 +1410,7 @@
         "HTML": 25362,
         "JavaScript": 2788
       },
-      "cardImage": null
+      "cardImage": "https://raw.githubusercontent.com/dimuthx353/JungKook/main/images/Screenshot%202024-08-05%20152958.png"
     },
     {
       "id": 877234980,
@@ -1642,7 +1645,7 @@
         "CSS": 69552,
         "JavaScript": 36943
       },
-      "cardImage": "https://raw.githubusercontent.com/dimuthadithya/salonJC/master/public/assets/img/readme/home.png"
+      "cardImage": null
     },
     {
       "id": 838218480,
@@ -1712,8 +1715,8 @@
       "releases_url": "https://api.github.com/repos/dimuthadithya/sliateBatch/releases{/id}",
       "deployments_url": "https://api.github.com/repos/dimuthadithya/sliateBatch/deployments",
       "created_at": "2024-08-05T07:34:37Z",
-      "updated_at": "2025-08-26T08:47:49Z",
-      "pushed_at": "2025-02-22T18:01:35Z",
+      "updated_at": "2025-08-26T10:24:26Z",
+      "pushed_at": "2025-08-26T10:24:23Z",
       "git_url": "git://github.com/dimuthadithya/sliateBatch.git",
       "ssh_url": "git@github.com:dimuthadithya/sliateBatch.git",
       "clone_url": "https://github.com/dimuthadithya/sliateBatch.git",
@@ -2104,7 +2107,7 @@
         "Blade": 195172,
         "JavaScript": 38209
       },
-      "cardImage": null
+      "cardImage": "https://raw.githubusercontent.com/dimuthadithya/trenz/main/./public/assets/img/home.png"
     },
     {
       "id": 856315123,
@@ -2226,13 +2229,13 @@
         "SCSS": 12283,
         "Hack": 308
       },
-      "cardImage": null
+      "cardImage": "https://raw.githubusercontent.com/dimuthadithya/zulo/main/./assets/img/screenshots/home.png"
     }
   ],
   "stats": {
     "totalStars": 1,
     "totalForks": 0,
     "totalRepos": 19,
-    "updatedAt": "2025-08-26T09:58:55.701Z"
+    "updatedAt": "2025-08-26T10:49:37.653Z"
   }
 }
