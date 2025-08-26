@@ -8,6 +8,33 @@ ScrollReveal().reveal('.card', {
   easing: 'cubic-bezier(0.5, 0, 0, 1)'
 });
 
+// Mobile Menu Toggle
+function toggleMobileMenu() {
+  const mobileMenu = document.getElementById('mobile-menu');
+  mobileMenu.classList.toggle('hidden');
+}
+
+// Close mobile menu when clicking outside
+document.addEventListener('click', (e) => {
+  const mobileMenu = document.getElementById('mobile-menu');
+  const menuButton = document.querySelector('button[aria-label="Toggle menu"]');
+  if (
+    !mobileMenu.contains(e.target) &&
+    !menuButton.contains(e.target) &&
+    !mobileMenu.classList.contains('hidden')
+  ) {
+    mobileMenu.classList.add('hidden');
+  }
+});
+
+// Close mobile menu when window is resized to desktop view
+window.addEventListener('resize', () => {
+  const mobileMenu = document.getElementById('mobile-menu');
+  if (window.innerWidth >= 768 && !mobileMenu.classList.contains('hidden')) {
+    mobileMenu.classList.add('hidden');
+  }
+});
+
 // Update footer year
 document.getElementById('current-year').textContent = new Date().getFullYear();
 
