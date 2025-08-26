@@ -8,6 +8,36 @@ ScrollReveal().reveal('.card', {
   easing: 'cubic-bezier(0.5, 0, 0, 1)'
 });
 
+// Mobile Menu Toggle
+function toggleMobileMenu() {
+  const mobileMenu = document.getElementById('mobile-menu');
+  mobileMenu.classList.toggle('hidden');
+}
+
+// Close mobile menu when clicking outside
+document.addEventListener('click', (e) => {
+  const mobileMenu = document.getElementById('mobile-menu');
+  const menuButton = document.querySelector('button[aria-label="Toggle menu"]');
+  if (
+    !mobileMenu.contains(e.target) &&
+    !menuButton.contains(e.target) &&
+    !mobileMenu.classList.contains('hidden')
+  ) {
+    mobileMenu.classList.add('hidden');
+  }
+});
+
+// Close mobile menu when window is resized to desktop view
+window.addEventListener('resize', () => {
+  const mobileMenu = document.getElementById('mobile-menu');
+  if (window.innerWidth >= 768 && !mobileMenu.classList.contains('hidden')) {
+    mobileMenu.classList.add('hidden');
+  }
+});
+
+// Update footer year
+document.getElementById('current-year').textContent = new Date().getFullYear();
+
 // Additional ScrollReveal for skills items
 ScrollReveal().reveal('.skills-item', {
   delay: 200,
@@ -504,36 +534,4 @@ window.addEventListener('scroll', () => {
   }
 });
 
-// Contact Form Handling
-document
-  .getElementById('contact-form')
-  .addEventListener('submit', function (e) {
-    e.preventDefault();
-
-    // Get form data
-    const formData = {
-      name: document.getElementById('name').value,
-      email: document.getElementById('email').value,
-      subject: document.getElementById('subject').value,
-      message: document.getElementById('message').value
-    };
-
-    // You can handle the form submission here
-    // For now, we'll just log the data and show a success message
-    console.log('Form submitted:', formData);
-
-    // Show success message
-    const button = e.target.querySelector('button[type="submit"]');
-    const originalText = button.innerHTML;
-    button.innerHTML = '<i class="fas fa-check mr-2"></i>Message Sent!';
-    button.disabled = true;
-    button.classList.add('bg-green-500', 'hover:bg-green-600');
-
-    // Reset form and button after 3 seconds
-    setTimeout(() => {
-      e.target.reset();
-      button.innerHTML = originalText;
-      button.disabled = false;
-      button.classList.remove('bg-green-500', 'hover:bg-green-600');
-    }, 3000);
-  });
+// End of scroll handling
