@@ -534,36 +534,4 @@ window.addEventListener('scroll', () => {
   }
 });
 
-// Contact Form Handling
-document
-  .getElementById('contact-form')
-  .addEventListener('submit', function (e) {
-    e.preventDefault();
-
-    // Get form data
-    const formData = {
-      name: document.getElementById('name').value,
-      email: document.getElementById('email').value,
-      subject: document.getElementById('subject').value,
-      message: document.getElementById('message').value
-    };
-
-    // You can handle the form submission here
-    // For now, we'll just log the data and show a success message
-    console.log('Form submitted:', formData);
-
-    // Show success message
-    const button = e.target.querySelector('button[type="submit"]');
-    const originalText = button.innerHTML;
-    button.innerHTML = '<i class="fas fa-check mr-2"></i>Message Sent!';
-    button.disabled = true;
-    button.classList.add('bg-green-500', 'hover:bg-green-600');
-
-    // Reset form and button after 3 seconds
-    setTimeout(() => {
-      e.target.reset();
-      button.innerHTML = originalText;
-      button.disabled = false;
-      button.classList.remove('bg-green-500', 'hover:bg-green-600');
-    }, 3000);
-  });
+// End of scroll handling
