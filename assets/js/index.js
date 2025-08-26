@@ -8,6 +8,9 @@ ScrollReveal().reveal('.card', {
   easing: 'cubic-bezier(0.5, 0, 0, 1)'
 });
 
+// Update footer year
+document.getElementById('current-year').textContent = new Date().getFullYear();
+
 // Additional ScrollReveal for skills items
 ScrollReveal().reveal('.skills-item', {
   delay: 200,
